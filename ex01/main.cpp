@@ -18,10 +18,15 @@ int main ()
 			i = 0;
 			is_full = true;
 		}
-		std::cout << "Please type your choise:\nADD\nSEARCH\nEXIT\nEnter here: ";
-		std::cin >> choice;
-		std::cout << std::endl;
+		std::cout << std::endl << "Please type your choice:\nADD\nSEARCH\nEXIT\nEnter here: ";
+		//std::getline(std::cin, choice, '\n');
+		//std::cout << std::endl;
 
+		while (choice != "ADD" && choice != "SEARCH" && choice != "EXIT")
+		{
+			std::getline(std::cin, choice, '\n');
+			std::cout << std::endl;
+		}
 		if (choice == "ADD")
 		{
 			phoneBook.Repertory[i] = phoneBook.addContact();
