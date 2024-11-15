@@ -1,4 +1,4 @@
-#include "PhoneBook.hpp"
+#include "PhoneBook.Class.hpp"
 #include <iostream>
 
 //constructeur
@@ -13,31 +13,41 @@ PhoneBook::~PhoneBook(void)
 	return;
 }
 
-Contact PhoneBook::addContact(void)
+void	PhoneBook::setRepertory(int i)
 {
-	Contact NewContact;
+	this->_repertory[i] = this->_addContact();
+}
+
+Contact PhoneBook::_addContact(void)
+{
+	Contact newContact;
 
 	std::cout << "Please enter first name: ";
-	std::getline(std::cin, NewContact.firstName, '\n');
+	while (newContact.firstName.empty())
+		std::getline(std::cin, newContact.firstName, '\n');
 	//std::cout << std::endl;
 	
 	std::cout << "Please enter last name: ";
-	std::getline(std::cin, NewContact.lastName, '\n');
+	while (newContact.lastName.empty())
+		std::getline(std::cin, newContact.lastName, '\n');
 	//std::cout << std::endl;
 
 	std::cout << "Please enter nickname: ";
-	std::getline(std::cin, NewContact.nickName, '\n'); //here 
+	while (newContact.nickName.empty())
+		std::getline(std::cin, newContact.nickName, '\n'); //here 
 	//std::cout << std::endl;
 
 	std::cout << "Please enter phone number: ";
-	std::getline(std::cin, NewContact.phoneNumber, '\n');
+	while (newContact.phoneNumber.empty())
+		std::getline(std::cin, newContact.phoneNumber, '\n');
 	//std::cout << std::endl;
 
 	std::cout << "Please enter darkest secret: ";
-	std::getline(std::cin, NewContact.darkestSecret, '\n');
+	while (newContact.darkestSecret.empty())
+		std::getline(std::cin, newContact.darkestSecret, '\n');
 	std::cout << "Thanks" << std::endl;
 
-	return (NewContact);
+	return (newContact);
 }
 
 // void	print_contact(std::string str)
@@ -76,7 +86,7 @@ void	print_category(std::string str)
 	std::cout << "|";
 }
 
-void	PhoneBook::printListContact(int nb)
+void	PhoneBook::_printListContact(int nb) const
 {
 	for (int i = 0; i < 8; i++)
 	{
@@ -84,40 +94,40 @@ void	PhoneBook::printListContact(int nb)
 		std::cout << i << "         |";
 		
 		if (i < nb)
-			print_category(this->Repertory[i].firstName);
+			print_category(this->_repertory[i].firstName);
 		else
 			std::cout << "          |";
 
 		if (i < nb)
-			print_category(this->Repertory[i].lastName);
+			print_category(this->_repertory[i].lastName);
 		else
 			std::cout << "          |";
 
 		if (i < nb)
-			print_category(this->Repertory[i].nickName);
+			print_category(this->_repertory[i].nickName);
 		else
 			std::cout << "          |";
 		std::cout << std::endl;
 	}
 }
 
-void	PhoneBook::printThisContact(int id, std::string choice)
+void	PhoneBook::_printThisContact(int id, std::string choice) const
 {
 	std::cout << std::endl;
 	std::cout << "Id choose:	| " << choice << std::endl;
-	std::cout << "First name:	| " << this->Repertory[id].firstName << std::endl;
-	std::cout << "Last name:	| " << this->Repertory[id].lastName << std::endl;
-	std::cout << "Nickname:	| " << this->Repertory[id].nickName << std::endl;
-	std::cout << "Phone number:	| " << this->Repertory[id].phoneNumber << std::endl;
-	std::cout << "Darkest secret:	| " << this->Repertory[id].darkestSecret << std::endl;
+	std::cout << "First name:	| " << this->_repertory[id].firstName << std::endl;
+	std::cout << "Last name:	| " << this->_repertory[id].lastName << std::endl;
+	std::cout << "Nickname:	| " << this->_repertory[id].nickName << std::endl;
+	std::cout << "Phone number:	| " << this->_repertory[id].phoneNumber << std::endl;
+	std::cout << "Darkest secret:	| " << this->_repertory[id].darkestSecret << std::endl;
 }
 
-void	PhoneBook::searchContact(int nb)
+void	PhoneBook::searchContact(int nb) const
 {
 	std::string choice;
 	int id;
 
-	this->printListContact(nb);//on print
+	this->_printListContact(nb);//on print
 
 	std::cout << std::endl;
 	std::cout << "Please enter an id: ";
@@ -128,8 +138,8 @@ void	PhoneBook::searchContact(int nb)
 		return ;
 	}
 	id = choice[0] - 48;
-	if (id < 0 || id > 7)
+	if (id < 0 || id > 7 || this->_repertory[id].firstName.empty())
 		std::cout << "! Error: wrong number entered. !" << std::endl;
 	else
-		this->printThisContact(id, choice);
+		this->_printThisContact(id, choice);
 }

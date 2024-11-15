@@ -1,5 +1,5 @@
-#include "PhoneBook.hpp"
-#include "contact.hpp"
+#include "PhoneBook.Class.hpp"
+#include "Contact.Class.hpp"
 #include <iostream>
 
 int main ()
@@ -19,17 +19,15 @@ int main ()
 			is_full = true;
 		}
 		std::cout << std::endl << "Please type your choice:\nADD\nSEARCH\nEXIT\nEnter here: ";
-		//std::getline(std::cin, choice, '\n');
-		//std::cout << std::endl;
 
 		while (choice != "ADD" && choice != "SEARCH" && choice != "EXIT")
 		{
 			std::getline(std::cin, choice, '\n');
-			std::cout << std::endl;
+			//std::cout << std::endl;
 		}
 		if (choice == "ADD")
 		{
-			phoneBook.Repertory[i] = phoneBook.addContact();
+			phoneBook.setRepertory(i);
 			i++;
 		}
 		else if (choice == "SEARCH")
@@ -44,6 +42,7 @@ int main ()
 			std::cout << "Exit" << std::endl;
 			break;
 		}
+		choice = "";
 	}
 	return(0);
 }
