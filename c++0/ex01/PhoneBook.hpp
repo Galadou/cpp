@@ -1,7 +1,7 @@
 #ifndef PHONEBOOK
 # define PHONEBOOK
 
-#include "Contact.Class.hpp"
+#include "Contact.hpp"
 
 class	PhoneBook {
 

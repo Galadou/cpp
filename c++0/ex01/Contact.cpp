@@ -1,4 +1,4 @@
-#include "Contact.Class.hpp"
+#include "Contact.hpp"
 #include <iostream>
 
 //constructeur

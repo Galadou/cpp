@@ -1,5 +1,5 @@
-#include "PhoneBook.Class.hpp"
-#include "Contact.Class.hpp"
+#include "PhoneBook.hpp"
+#include "Contact.hpp"
 #include <iostream>
 
 int main ()
