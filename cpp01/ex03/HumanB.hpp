@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 14:23:13 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:25:43 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#ifndef HUMANB_HPP
+# define HUMANB_HPP
 
-int main(void)
+#include <iostream>
+#include "Weapon.hpp"
+#include "HumanA.hpp"
+
+class HumanB
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
-	std::cout << std::endl;
+	public:
+		HumanB(std::string name);
+		~HumanB();
 
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
-	return (0);
-}
+		void	attack() const;
+		void	setWeapon(Weapon &newWeapon);
+		
+	private:
+		std::string	_name;
+		Weapon 		*_hisWeapon;
+
+};
+
+#endif

@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanB.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 15:09:13 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:25:30 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "HumanB.hpp"
 
-int main(void)
+//constructor
+HumanB::HumanB(std::string name) : _name(name)
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
-	std::cout << std::endl;
+	return;
+}
 
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
-	return (0);
+//destructor
+HumanB::~HumanB(void)
+{
+	return;
+}
+
+void	HumanB::attack() const
+{
+		std::cout << this->_name << " attacks with their " << this->_hisWeapon->getType() << std::endl;
+}
+
+void	HumanB::setWeapon(Weapon &newWeapon)
+{
+	this->_hisWeapon = &newWeapon;
 }

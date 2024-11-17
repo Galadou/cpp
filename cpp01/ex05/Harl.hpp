@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 18:27:22 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:27:23 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#ifndef HARL_HPP
+# define HARL_HPP
 
-int main(void)
+#include <iostream>
+
+class Harl
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
-	std::cout << std::endl;
+	public:
+		Harl();
+		~Harl();
 
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
-	return (0);
-}
+		void complain( std::string level );
+
+	private:
+		void debug(void);
+		void info(void);
+		void warning(void);
+		void error(void);
+};
+
+#endif

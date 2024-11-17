@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   HumanA.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 18:24:36 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:24:54 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "HumanA.hpp"
 
-int main(void)
+//constructor
+HumanA::HumanA(std::string name, Weapon &newWeapon) : _name(name), _hisWeapon(newWeapon)
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
-	std::cout << std::endl;
+	return;
+}
 
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
-	return (0);
+//destructor
+HumanA::~HumanA(void)
+{
+	return;
+}
+
+void	HumanA::attack()
+{
+	std::cout << this->_name << " attacks with their " << this->_hisWeapon.getType() << std::endl;
 }

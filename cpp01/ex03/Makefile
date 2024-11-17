@@ -1,8 +1,9 @@
-NAME = zombieHorde
+NAME = UnnecessaryViolence
 
 SRCS = 	main.cpp\
-		Zombie.cpp\
-		zombieHorde.cpp
+		Weapon.cpp\
+		HumanA.cpp\
+		HumanB.cpp
 
 OBJS=$(SRCS:.cpp=.o)
 

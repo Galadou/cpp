@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Weapon.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 15:09:20 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:26:43 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "Weapon.hpp"
 
-int main(void)
+Weapon::Weapon(std::string type) : _type(type)
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
-	std::cout << std::endl;
+	std::cout << "Weapon constructor called" << std::endl;
+	return;
+}
 
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
-	return (0);
+Weapon::~Weapon(void)
+{
+	std::cout << "Weapon destructor called" << std::endl;
+	return;
+}
+
+const std::string	&Weapon::getType()
+{
+	return (this->_type);
+}
+
+void	Weapon::setType(std::string newType)
+{
+	this->_type = newType;
+	return;
 }

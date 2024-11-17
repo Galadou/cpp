@@ -5,23 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 18:14:31 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:23:13 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "Harl.hpp"
 
-int main(void)
+int	main(void)
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
-	std::cout << std::endl;
-
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
+	Harl robot;
+	std::string level;
+	
+	level = "warning";
+	robot.complain(level);
 	return (0);
 }

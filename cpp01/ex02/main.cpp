@@ -5,23 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:24:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:15 by gmersch          ###   ########.fr       */
+/*   Created: 2024/11/17 18:24:29 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:24:30 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include <iostream>
 
 int main(void)
 {
-	//apparement stack
-	randomChump("MONSTRE"); 
+	std::string str = "HI THIS IS BRAIN";
+	std::string *stringPTR = &str;
+	std::string &stringREF = str;
+
+	std::cout << "adress of str: " << &str << std::endl;
+	std::cout << "adress held by PTR: " << stringPTR << std::endl;
+	std::cout << "adress held by REF: " << &stringREF << std::endl;
+
 	std::cout << std::endl;
 
-	//apparement heap ( mais pourquoi different de random chump ???)
-	Zombie *Zed;
-	Zed = newZombie("Zed");
-	Zed->announce();
-	delete Zed;
-	return (0);
+	std::cout << "str: " << str << std::endl;
+	std::cout << "PTR: " << *stringPTR << std::endl;
+	std::cout << "str: " << stringREF << std::endl;
+
 }

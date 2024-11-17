@@ -1,9 +1,20 @@
-#include "Zombie.hpp"
-#include <iostream>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/17 18:23:58 by gmersch           #+#    #+#             */
+/*   Updated: 2024/11/17 18:23:59 by gmersch          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-Zombie::Zombie(std::string name) : _name(name)
+#include "Zombie.hpp"
+
+Zombie::Zombie(void)
 {
-	std::cout << "constructor called for " << this->_name << std::endl;
+	std::cout << "constructor called for a Zombie" << std::endl;
 	return;
 }
 
@@ -13,15 +24,16 @@ Zombie::~Zombie(void)
 	return;
 }
 
-void	Zombie::announce(void)
+void	Zombie::announce(void) const
 {
 	std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 	return;
 }
 
-// Zombie* newZombie(std::string name)
-// {
-// 	return (new Zombie(name));
-// }
+void	Zombie::setName(std::string name)
+{
+	this->_name = name;
+}
+
 
 
