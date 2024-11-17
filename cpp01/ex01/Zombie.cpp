@@ -18,3 +18,10 @@ void	Zombie::announce(void)
 	std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 	return;
 }
+
+// Zombie* newZombie(std::string name)
+// {
+// 	return (new Zombie(name));
+// }
+
+

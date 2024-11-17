@@ -7,7 +7,7 @@ int main(void)
 	randomChump("MONSTRE"); 
 	std::cout << std::endl;
 
-	//apparement heap
+	//apparement heap ( mais pourquoi different de random chump ???)
 	Zombie *Zed;
 	Zed = newZombie("Zed");
 	Zed->announce();
