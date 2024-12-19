@@ -2,19 +2,19 @@
 
 ClapTrap::ClapTrap() : _hit(10), _energy(10), _attack_dmg(0)
 {
-	std::cout << "Constructor called" << std::endl;
+	std::cout << "Constructor of ClapTrap called" << std::endl;
 	return;
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "Destructor called." << std::endl << std::endl;
+	std::cout << "Destructor of ClapTrap called." << std::endl << std::endl;
 	return;
 }
 
 ClapTrap::ClapTrap(ClapTrap const &src)
 {
-	std::cout << "Copy constructor called." << std::endl;
+	std::cout << "Copy constructor of ClapTrap called." << std::endl;
 	*this = src;
 }
 
@@ -33,7 +33,7 @@ ClapTrap	&ClapTrap::operator=(const ClapTrap &src) //& car on veux pas dupllique
 
 ClapTrap::ClapTrap(std::string name) : _hit(10), _energy(10), _attack_dmg(0)
 {
-	std::cout << std::endl << "Constructor initializing name called." << std::endl;
+	std::cout << std::endl << "Constructor initializing name of ClapTrap called." << std::endl;
 	this->_name = name;
 	return;
 }
