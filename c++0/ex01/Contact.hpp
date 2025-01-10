@@ -3,16 +3,17 @@
 
 #include <iostream>
 
-struct	Contact {
+class	Contact {
 
-	Contact(void);
-	~Contact(void);
+	public:
+		Contact(void);
+		~Contact(void);
 
-	std::string	firstName;
-	std::string	lastName;
-	std::string	nickName;
-	std::string	phoneNumber;
-	std::string	darkestSecret;
+		std::string	firstName;
+		std::string	lastName;
+		std::string	nickName;
+		std::string	phoneNumber;
+		std::string	darkestSecret;
 };
 
 #endif

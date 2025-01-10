@@ -19,12 +19,8 @@ int main ()
 			is_full = true;
 		}
 		std::cout << std::endl << "Please type your choice:\nADD\nSEARCH\nEXIT\nEnter here: ";
-
 		while (choice != "ADD" && choice != "SEARCH" && choice != "EXIT")
-		{
 			std::getline(std::cin, choice, '\n');
-			//std::cout << std::endl;
-		}
 		if (choice == "ADD")
 		{
 			phoneBook.setRepertory(i);

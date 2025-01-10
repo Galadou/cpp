@@ -1,4 +1,4 @@
-NAME = Megaphone
+NAME = megaphone
 
 SRCS = 	megaphone.cpp
 

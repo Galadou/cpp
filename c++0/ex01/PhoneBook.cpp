@@ -1,13 +1,10 @@
 #include "PhoneBook.hpp"
-#include <iostream>
 
-//constructeur
 PhoneBook::PhoneBook(void)
 {
 	return;
 }
 
-//destructeur
 PhoneBook::~PhoneBook(void)
 {
 	return;
@@ -25,47 +22,21 @@ Contact PhoneBook::_addContact(void)
 	std::cout << "Please enter first name: ";
 	while (newContact.firstName.empty())
 		std::getline(std::cin, newContact.firstName, '\n');
-	//std::cout << std::endl;
-	
 	std::cout << "Please enter last name: ";
 	while (newContact.lastName.empty())
 		std::getline(std::cin, newContact.lastName, '\n');
-	//std::cout << std::endl;
-
 	std::cout << "Please enter nickname: ";
 	while (newContact.nickName.empty())
-		std::getline(std::cin, newContact.nickName, '\n'); //here 
-	//std::cout << std::endl;
-
+		std::getline(std::cin, newContact.nickName, '\n');
 	std::cout << "Please enter phone number: ";
 	while (newContact.phoneNumber.empty())
 		std::getline(std::cin, newContact.phoneNumber, '\n');
-	//std::cout << std::endl;
-
 	std::cout << "Please enter darkest secret: ";
 	while (newContact.darkestSecret.empty())
 		std::getline(std::cin, newContact.darkestSecret, '\n');
 	std::cout << "Thanks" << std::endl;
-
 	return (newContact);
 }
-
-// void	print_contact(std::string str)
-// {
-// 	for (int j = 0; j < 10; j++)
-// 		{
-// 			if (j < (int)str.size())
-// 			{
-// 				if (j > 9 && (int)str.size() > 10)
-// 					std::cout << ".";
-// 				else
-// 					std::cout << str[j];
-// 			}
-// 			else
-// 				std::cout << " ";
-// 		}
-// 		std::cout << "|";
-// } // sur la gauche
 
 void	print_category(std::string str)
 {
@@ -90,19 +61,15 @@ void	PhoneBook::_printListContact(int nb) const
 {
 	for (int i = 0; i < 8; i++)
 	{
-		//index
-		std::cout << i << "         |";
-		
+		std::cout << "         " << i << "|";
 		if (i < nb)
 			print_category(this->_repertory[i].firstName);
 		else
 			std::cout << "          |";
-
 		if (i < nb)
 			print_category(this->_repertory[i].lastName);
 		else
 			std::cout << "          |";
-
 		if (i < nb)
 			print_category(this->_repertory[i].nickName);
 		else
@@ -127,8 +94,7 @@ void	PhoneBook::searchContact(int nb) const
 	std::string choice;
 	int id;
 
-	this->_printListContact(nb);//on print
-
+	this->_printListContact(nb);
 	std::cout << std::endl;
 	std::cout << "Please enter an id: ";
 	std::getline(std::cin, choice, '\n');
