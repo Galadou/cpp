@@ -8,7 +8,7 @@ RM =rm -f
 
 COMP = c++
 
-CFLAGS= -Wall -Werror -Wextra -std=c++98 -g
+CFLAGS= -Wall -Werror -Wextra -std=c++98
 
 all: $(NAME)
 

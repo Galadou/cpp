@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:40:51 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 17:27:44 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/10 16:05:48 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_parsing(int argc, char **argv, std::ifstream &infile)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv) // doesn't work
 {
 	std::ifstream infile; 
 	std::string myline;
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 		if (i > 0)
 			outfile << std::endl;
 		i++;
-		if (myline == argv[2])
+		if (myline == argv[2]) // ici je pense
 			outfile << argv[3];
 		else
 			outfile << myline;

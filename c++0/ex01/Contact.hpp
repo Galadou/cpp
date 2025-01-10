@@ -1,7 +1,10 @@
 #ifndef CONTACT
 # define CONTACT
 
-#include <iostream>
+# include <iostream>
+
+# define PRINT std::cout <<
+# define END << std::endl;
 
 class	Contact {
 
@@ -9,11 +12,16 @@ class	Contact {
 		Contact(void);
 		~Contact(void);
 
-		std::string	firstName;
 		std::string	lastName;
 		std::string	nickName;
 		std::string	phoneNumber;
 		std::string	darkestSecret;
+
+		std::string	getFirstName() const;
+		void	setFirstName(std::string const &firstName);
+
+		private:
+			std::string	_firstName;
 };
 
 #endif

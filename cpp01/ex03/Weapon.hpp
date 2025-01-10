@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:23:09 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:26:15 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/10 14:36:24 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define WEAPON_HPP
 
 #include <iostream>
-#include "HumanB.hpp"
-#include "HumanA.hpp"
 
 class Weapon
 {
@@ -29,5 +27,8 @@ class Weapon
 		const 	std::string	&getType();
 		void	setType(std::string newType);
 };
+
+#include "HumanB.hpp"
+#include "HumanA.hpp"
 
 #endif

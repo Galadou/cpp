@@ -2,7 +2,7 @@
 #include "Contact.hpp"
 #include <iostream>
 
-int main ()
+int main () // utiliser  setw function from: iomap
 {
 	PhoneBook	phoneBook;
 	std::string	choice;
@@ -20,7 +20,9 @@ int main ()
 		}
 		std::cout << std::endl << "Please type your choice:\nADD\nSEARCH\nEXIT\nEnter here: ";
 		while (choice != "ADD" && choice != "SEARCH" && choice != "EXIT")
-			std::getline(std::cin, choice, '\n');
+		{
+			std::getline(std::cin, choice); // gerer endofile std::cin.clear();
+		}
 		if (choice == "ADD")
 		{
 			phoneBook.setRepertory(i);
@@ -33,7 +35,7 @@ int main ()
 			else
 				phoneBook.searchContact(i);
 		}
-		else if (choice == "EXIT")
+		else if (choice == "EXIT") // std::cin.eof() == 1
 		{
 			std::cout << "Exit" << std::endl;
 			break;

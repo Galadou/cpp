@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:24:18 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:19 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/10 15:52:00 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void randomChump(std::string name)
 {
-	Zombie *newZ;
-	newZ = newZombie(name);
-	newZ->announce();
-	delete newZ;
+	Zombie newZ(name);
+	// newZ = newZombie(name);
+	newZ.announce();
 }

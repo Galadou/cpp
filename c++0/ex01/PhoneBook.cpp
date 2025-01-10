@@ -18,22 +18,24 @@ void	PhoneBook::setRepertory(int i)
 Contact PhoneBook::_addContact(void)
 {
 	Contact newContact;
+	std::string str;
 
 	std::cout << "Please enter first name: ";
-	while (newContact.firstName.empty())
-		std::getline(std::cin, newContact.firstName, '\n');
+	while (std::cin.eof() == 0 && str.empty()) //a test et ajouter
+		std::getline(std::cin, str);
+	newContact.setFirstName(str); // a mettre partout
 	std::cout << "Please enter last name: ";
 	while (newContact.lastName.empty())
-		std::getline(std::cin, newContact.lastName, '\n');
+		std::getline(std::cin, newContact.lastName);
 	std::cout << "Please enter nickname: ";
 	while (newContact.nickName.empty())
-		std::getline(std::cin, newContact.nickName, '\n');
+		std::getline(std::cin, newContact.nickName);
 	std::cout << "Please enter phone number: ";
 	while (newContact.phoneNumber.empty())
-		std::getline(std::cin, newContact.phoneNumber, '\n');
+		std::getline(std::cin, newContact.phoneNumber);
 	std::cout << "Please enter darkest secret: ";
 	while (newContact.darkestSecret.empty())
-		std::getline(std::cin, newContact.darkestSecret, '\n');
+		std::getline(std::cin, newContact.darkestSecret);
 	std::cout << "Thanks" << std::endl;
 	return (newContact);
 }
@@ -63,7 +65,7 @@ void	PhoneBook::_printListContact(int nb) const
 	{
 		std::cout << "         " << i << "|";
 		if (i < nb)
-			print_category(this->_repertory[i].firstName);
+			print_category(this->_repertory[i].getFirstName());
 		else
 			std::cout << "          |";
 		if (i < nb)
@@ -82,7 +84,7 @@ void	PhoneBook::_printThisContact(int id, std::string choice) const
 {
 	std::cout << std::endl;
 	std::cout << "Id choose:	| " << choice << std::endl;
-	std::cout << "First name:	| " << this->_repertory[id].firstName << std::endl;
+	std::cout << "First name:	| " << this->_repertory[id].getFirstName() << std::endl;
 	std::cout << "Last name:	| " << this->_repertory[id].lastName << std::endl;
 	std::cout << "Nickname:	| " << this->_repertory[id].nickName << std::endl;
 	std::cout << "Phone number:	| " << this->_repertory[id].phoneNumber << std::endl;
@@ -97,14 +99,14 @@ void	PhoneBook::searchContact(int nb) const
 	this->_printListContact(nb);
 	std::cout << std::endl;
 	std::cout << "Please enter an id: ";
-	std::getline(std::cin, choice, '\n');
+	std::getline(std::cin, choice);
 	if ((int)choice.size() != 1)
 	{
 		std::cout << "! Error: wrong input entered. !" << std::endl;
 		return ;
 	}
 	id = choice[0] - 48;
-	if (id < 0 || id > 7 || this->_repertory[id].firstName.empty())
+	if (id < 0 || id > 7 || this->_repertory[id].getFirstName().empty())
 		std::cout << "! Error: wrong number entered. !" << std::endl;
 	else
 		this->_printThisContact(id, choice);

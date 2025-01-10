@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:35:53 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/17 18:27:37 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/10 16:10:46 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void Harl::complain(std::string level)
 
 	//je cree un tableau qui contien les string dans le bon ordre
 	//(si c'est info, alors c'est le deuxieme dans mon tableau vers fonc pt)
-	std::string level_tab[4] = {"debug", "info", "warning", "error"};
+	std::string level_tab[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 	
 	for (int i = 0; i < 4; i++)
 	{
