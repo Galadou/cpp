@@ -3,9 +3,6 @@
 
 # include <iostream>
 
-# define PRINT std::cout <<
-# define END << std::endl;
-
 class	Contact {
 
 	public:
