@@ -1,4 +1,2 @@
-dans lex 04 du cpp01, marche pas car doit tout comparer
-cpp 0 remplacer par des getter et setteur, et check les EOF
 check autre code, ya des commentaire a droite a gauche
 alerte .0 et autre fichier indesirable !
