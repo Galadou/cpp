@@ -18,17 +18,17 @@ ClapTrap::ClapTrap(ClapTrap const &src)
 	*this = src;
 }
 
-ClapTrap	&ClapTrap::operator=(const ClapTrap &src) //& car on veux pas duplliquer
+ClapTrap	&ClapTrap::operator=(const ClapTrap &src)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
-	if (this != &src) //si diff
+	if (this != &src)
 	{
 		this->_name = src._name;
 		this->_energy = src._energy;
 		this->_hit = src._hit;
 		this->_attack_dmg = src._attack_dmg;
 	}
-	return (*this); //on renvoie ce quil contient
+	return (*this);
 }
 
 ClapTrap::ClapTrap(std::string name) : _hit(10), _energy(10), _attack_dmg(0)
@@ -47,7 +47,6 @@ void	ClapTrap::attack(const std::string& target)
 		return;
 	}
 	this->_energy--;
-	//target  ??? c'est une string je suis supposé enlevé comment des damages ?
 	std::cout << "\033[36mClapTrap\033[0m " << this->_name << " \033[35mattacks " << target;
 	std::cout << ", causing " << this->_attack_dmg << " damage points!\033[0m";
 	std::cout << std::endl;

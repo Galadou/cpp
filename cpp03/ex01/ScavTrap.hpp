@@ -14,7 +14,6 @@ class ScavTrap: public ClapTrap
 
 		ScavTrap(std::string name);
 		void	guardGate();
-		//FAIRE ATTACK ICI
 };
 
 #endif

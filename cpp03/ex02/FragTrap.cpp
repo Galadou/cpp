@@ -21,17 +21,17 @@ FragTrap::FragTrap(FragTrap const &src)
 	*this = src;
 }
 
-FragTrap	&FragTrap::operator=(const FragTrap &src) //& car on veux pas duplliquer
+FragTrap	&FragTrap::operator=(const FragTrap &src)
 {
 	std::cout << "Copy assignment operator of FragTrap called" << std::endl;
-	if (this != &src) //si diff
+	if (this != &src)
 	{
 		this->_name = src._name;
 		this->_energy = src._energy;
 		this->_hit = src._hit;
 		this->_attack_dmg = src._attack_dmg;
 	}
-	return (*this); //on renvoie ce quil contient
+	return (*this);
 }
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name)
