@@ -6,11 +6,10 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:09 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/19 21:25:27 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/14 04:34:53 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include "Fixed.hpp"
 
 int main( void ) 

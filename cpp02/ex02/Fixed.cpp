@@ -6,13 +6,12 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:18 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/19 21:31:45 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/14 04:32:08 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
-//explication à ex00
 const int Fixed::_commaStorage = 8;
 
 Fixed::Fixed(void)
@@ -30,8 +29,7 @@ Fixed::Fixed(const int nb)
 Fixed::Fixed(const float nb)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->_fixedValue = roundf(nb * 256); //arrondi a lentier de virgule le plus proche (si 1.1458) ca fais 1.146 PAR EXEMPLE
-	//this->_fixedValue = nb * 256; pas assez precis
+	this->_fixedValue = roundf(nb * 256);
 }
 
 Fixed::~Fixed(void)
@@ -39,28 +37,26 @@ Fixed::~Fixed(void)
 	std::cout << "Destructor called" << std::endl;
 }
 
-//copy tout les elements de ma class
 Fixed::Fixed(Fixed const &cpy)
 {
 	std::cout << "Copy constructor called" << std::endl;
 	*this = cpy;
 }
 
-Fixed	&Fixed::operator=(const Fixed &src) //& car on veux pas duplliquer
+Fixed	&Fixed::operator=(const Fixed &src)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
-	if (this != &src) //si diff
+	if (this != &src)
 	{
 		this->_fixedValue = src._fixedValue;
 	}
-	return *this; //on renvoie ce quil contient
+	return *this;
 }
 
 int	Fixed::operator>(Fixed const &src) const
 {
 	return (this->toFloat() > src.toFloat());
 }
-
 
 int	Fixed::operator<(Fixed const &src) const
 {
@@ -107,32 +103,27 @@ Fixed	Fixed::operator/(Fixed const &src) const
 	return(Fixed(this->toFloat() / src.toFloat()));
 }
 
-Fixed	Fixed::operator++(int) //	x++
+Fixed	Fixed::operator++(int)
 {
-	Fixed	tmp(*this); //on garde lancienne valeur de coté
-	this->_fixedValue++; //on incremente celle ci
-	return(tmp); //on return l'ancien
+	Fixed	tmp(*this);
+	this->_fixedValue++;
+	return(tmp);
 }
 
-Fixed	Fixed::operator--(int) //	x--
+Fixed	Fixed::operator--(int)
 {
-	Fixed	tmp(*this); //on garde lancienne valeur de coté
-	this->_fixedValue--; //on incremente celle ci
-	return(tmp); //on return l'ancien
+	Fixed	tmp(*this);
+	this->_fixedValue--;
+	return(tmp);
 }
 
-Fixed	&Fixed::operator++() //	++x
+Fixed	&Fixed::operator++()
 {
 	this->_fixedValue++; 
-	return(*this); //on return *this avec une * car on veux recuperer le contenu :
-	//sinon on ne peux pas faire "b = a++" car a++ ferais juste une action
-	//sur l'instance 'a' mais ne serais 'rien' en soi. Donc a++; doit renvoyer
-	//la valeur de 'a' et non pas l'adress de 'a'. On veux comparer 'b' avec
-	//une instance ('a' dans notre cas), et non pas une adresse d'instance
-	//(si on avais juste fais 'this' au lieu de '*this').
+	return(*this);
 }
 
-Fixed	&Fixed::operator--() //	--x
+Fixed	&Fixed::operator--()
 {
 	this->_fixedValue--; 
 	return(*this);

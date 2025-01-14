@@ -6,24 +6,18 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/18 18:39:08 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/14 03:44:42 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
-// Constructeur par défaut
-// • Constructeur de copie
-// • Opérateur d’affectation
-// • Destructeur
-
-
 class Fixed
 {
 	public:
-		Fixed();//construct
+		Fixed();
 		Fixed(Fixed const &cpy);
-		~Fixed();//destruct
+		~Fixed();
 		Fixed	&operator=(Fixed const &rhs);
 
 		int 	getRawBits( void ) const;
@@ -31,6 +25,5 @@ class Fixed
 
 	private:
 		int					_fixedValue;
-		static const int	_commaStorage; //static = partager par tout les instances de la class
-
+		static const int	_commaStorage;
 };

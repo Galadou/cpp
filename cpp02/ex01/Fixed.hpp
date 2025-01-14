@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:14 by gmersch           #+#    #+#             */
-/*   Updated: 2024/11/18 20:07:46 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/14 04:29:37 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,16 @@
 #include <fstream>
 #include <cmath>
 
-// Constructeur par défaut
-// • Constructeur de copie
-// • Opérateur d’affectation
-// • Destructeur
-
-
 class Fixed
 {
 	public:
-	//de base:
-		Fixed();//construct base
+		Fixed();
 		Fixed(Fixed const &cpy);
 		Fixed	&operator=(Fixed const &rhs);
-		~Fixed();//destruct
+		~Fixed();
 		
-		Fixed(const int comma);//construct int
-		Fixed(const float nb);//construct float
+		Fixed(const int comma);
+		Fixed(const float nb);
 
 		int 	getRawBits( void ) const;
 		void	setRawBits( int const raw );
@@ -39,7 +32,7 @@ class Fixed
 
 	private:
 		int					_fixedValue;
-		static const int	_commaStorage; //static = partager par tout les instances de la class
+		static const int	_commaStorage;
 };
 
 std::ostream	&operator<<(std::ostream &out, const Fixed &src);
