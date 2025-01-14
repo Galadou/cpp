@@ -6,12 +6,11 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:09:17 by gmersch           #+#    #+#             */
-/*   Updated: 2025/01/10 15:58:07 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/14 03:00:39 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Weapon.hpp"
-#include <iostream>
 
 int main()
 {
