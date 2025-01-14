@@ -1,2 +1,0 @@
-check autre code, ya des commentaire a droite a gauche
-alerte .0 et autre fichier indesirable !
