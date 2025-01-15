@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:24:01 by gmersch           #+#    #+#             */
-/*   Updated: 2025/01/14 04:14:47 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/15 17:42:11 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ int main(void)
 	Zombie *horde;
 	
 	horde = zombieHorde(N, "Tom");
-
-	int i = 0;
-	while (i < N)
-	{
-		horde[i].announce();
-		i++;
-	}
 	delete[] horde;
 	return (0);
 }
