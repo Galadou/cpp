@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:40:51 by gmersch           #+#    #+#             */
-/*   Updated: 2025/01/15 18:58:25 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/16 14:43:57 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,49 +33,18 @@ int	ft_parsing(int argc, char **argv, std::ifstream &infile)
 	return (0);
 }
 
-// void	ft_algo(std::ofstream &outfile,std::ifstream &infile, std::string &myline, char **argv)
-// {
-// 	int i = 0;
-// 	size_t pos1;
-// 	std::string replace = argv[2];
-
-// 	while (std::getline(infile, myline))
-// 	{
-// 		if (i)
-// 			outfile << std::endl;
-// 		pos1 = myline.find(replace);
-// 		if (pos1 != std::string::npos)
-// 		{
-// 			while (pos1 != std::string::npos)
-// 			{
-// 				outfile << myline.substr(0, pos1);
-// 				outfile << argv[3];
-// 				myline = myline.substr(pos1 + replace.size());
-// 				pos1 = myline.find(replace);
-// 			}
-// 		}
-// 		outfile << myline;
-// 		i++;
-// 	}
-// }
-
-void	ft_algo(std::ofstream &outfile,std::ifstream &infile, std::string &myline, char **argv)
+#include <stdio.h>
+void	ft_algo(std::ofstream &outfile, std::ifstream &infile, std::string &myline, char **argv)
 {
 	size_t pos1;
 	std::string full_line;
 	std::string replace = argv[2];
-	int i = 0;
-
+	
 	while (std::getline(infile, myline))
 	{
-		i += myline.size();
 		full_line = full_line + myline;
-		if (infile.peek() != EOF)
-		{
-			std::cout << "BLAAAA" << std::endl;
+		if (!infile.eof())
 			full_line = full_line + "\n";
-			i++;
-		}
 	}
 	pos1 = full_line.find(replace);
 	while (pos1 != std::string::npos)
