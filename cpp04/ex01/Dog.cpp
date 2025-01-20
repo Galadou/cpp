@@ -2,14 +2,16 @@
 
 Dog::Dog()
 {
-	this->_type = "Dog";
 	std::cout << "Constructor of Dog called" << std::endl;
+	this->_type = "Dog";
+	this->_Brain = new Brain();
 	return;
 }
 
 Dog::~Dog()
 {
-	std::cout << "Destructor of Dog called." << std::endl << std::endl;
+	std::cout << "Destructor of Dog called." << std::endl;
+	delete this->_Brain;
 	return;
 }
 

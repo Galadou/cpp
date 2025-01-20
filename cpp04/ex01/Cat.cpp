@@ -2,14 +2,16 @@
 
 Cat::Cat()
 {
-	this->_type = "Cat";
 	std::cout << "Constructor of Cat called" << std::endl;
+	this->_type = "Cat";
+	this->_Brain = new Brain();
 	return;
 }
 
 Cat::~Cat()
 {
-	std::cout << "Destructor of Cat called." << std::endl << std::endl;
+	std::cout << "Destructor of Cat called." << std::endl;
+	delete this->_Brain;
 	return;
 }
 

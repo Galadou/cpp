@@ -4,7 +4,8 @@
 
 int main(void)
 {
-	FragTrap robot("Bla");
+	std::string str = "Jules";
+	FragTrap robot(str);
 
 	robot.attack("José");
 	robot.takeDamage(2);

@@ -6,7 +6,7 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:14 by gmersch           #+#    #+#             */
-/*   Updated: 2025/01/14 04:29:37 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:00:33 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Fixed
 
 	private:
 		int					_fixedValue;
-		static const int	_commaStorage;
+		static const int	_commaStorage = 8;
 };
 
 std::ostream	&operator<<(std::ostream &out, const Fixed &src);

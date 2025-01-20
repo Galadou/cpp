@@ -6,13 +6,11 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:18 by gmersch           #+#    #+#             */
-/*   Updated: 2025/01/14 04:29:12 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:07:29 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
-
-const int Fixed::_commaStorage = 8;
 
 Fixed::Fixed(void)
 {
@@ -23,13 +21,13 @@ Fixed::Fixed(void)
 Fixed::Fixed(const int nb)
 {
 	std::cout << "Int constructor called" << std::endl;
-	this->_fixedValue = nb * 256;
+	this->_fixedValue = nb * (1 << Fixed::_commaStorage); // = 256
 }
 
 Fixed::Fixed(const float nb)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->_fixedValue = roundf(nb * 256);
+	this->_fixedValue = roundf(nb * (1 << Fixed::_commaStorage));
 }
 
 Fixed::~Fixed(void)
@@ -47,20 +45,18 @@ Fixed	&Fixed::operator=(const Fixed &rhs)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &rhs)
-	{
 		this->_fixedValue = rhs._fixedValue;
-	}
 	return *this;
 }
 
 float Fixed::toFloat( void ) const
 {
-	return ((float)this->_fixedValue / 256.0);
+	return ((float)this->_fixedValue / (1 << Fixed::_commaStorage));
 }
 
 int Fixed::toInt( void ) const
 {
-	return (this->_fixedValue / 256);
+	return (this->_fixedValue / (1 << Fixed::_commaStorage));
 }
 
 int Fixed::getRawBits( void ) const

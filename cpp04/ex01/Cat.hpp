@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Animal.hpp"
+#include "Brain.hpp"
 
 class Cat: public Animal
 {
@@ -15,7 +16,7 @@ class Cat: public Animal
 
 		virtual void	makeSound() const;
 	private:
-		Brain *Brain;
+		Brain *_Brain;
 };
 
 #endif

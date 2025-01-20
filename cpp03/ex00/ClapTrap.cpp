@@ -40,7 +40,7 @@ ClapTrap::ClapTrap(std::string name) : _hit(10), _energy(10), _attack_dmg(0)
 
 void	ClapTrap::attack(const std::string& target)
 {
-	if (!this->_energy || !this->_hit)
+	if (!this->_energy || this->_hit < 1)
 	{
 		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m! Attack on " << target;
 		std::cout << " failed !\033[0m." << std::endl;
@@ -63,7 +63,7 @@ void	ClapTrap::takeDamage(unsigned int amount)
 
 void	ClapTrap::beRepaired(unsigned int amount)
 {
-	if (!this->_energy || !this->_hit)
+	if (!this->_energy || this->_hit < 1)
 	{
 		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m! Repair failed !\033[0m" << std::endl;
 		return;

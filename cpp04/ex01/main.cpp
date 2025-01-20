@@ -1,32 +1,22 @@
 
 #include "Animal.hpp"
 #include "WrongAnimal.hpp"
+#include "Brain.hpp"
+#include "Brain.hpp"
 
 int main()
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound();
-	meta->makeSound();
+	int nb = 2;
+	Animal	*animal[2] = {new Dog(), new Cat()};
 
-	std::cout << std::endl;
+	animal[0]->ideas[0] = "salut";
+	animal[1]->ideas[0] = "coucou";
 
-	const WrongAnimal*	wrong_animal = new WrongAnimal();
-	const WrongAnimal*	wrong_cat = new WrongCat();
+	std::cout << animal[0]->ideas[0] << std::endl;
+	std::cout << animal[1]->ideas[0] << std::endl;
 
-	std::cout << wrong_cat->getType() << " " << std::endl;
-	wrong_cat->makeSound(); //will output the Wrongcat sound!
-	wrong_animal->makeSound();
 
-	delete meta;
-	delete j;
-	delete i;
-	delete wrong_animal;
-	delete wrong_cat;
-
+	for(int i = 0; i < nb; i++)
+		delete tab[i];
 	return 0;
 }

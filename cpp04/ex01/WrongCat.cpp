@@ -2,8 +2,8 @@
 
 WrongCat::WrongCat()
 {
-	this->_type = "WrongCat";
 	std::cout << "Constructor of WrongCat called" << std::endl;
+	this->_type = "WrongCat";
 	return;
 }
 

@@ -6,13 +6,11 @@
 /*   By: gmersch <gmersch@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:16:18 by gmersch           #+#    #+#             */
-/*   Updated: 2025/01/14 04:32:08 by gmersch          ###   ########.fr       */
+/*   Updated: 2025/01/17 14:28:12 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
-
-const int Fixed::_commaStorage = 8;
 
 Fixed::Fixed(void)
 {
@@ -23,13 +21,13 @@ Fixed::Fixed(void)
 Fixed::Fixed(const int nb)
 {
 	std::cout << "Int constructor called" << std::endl;
-	this->_fixedValue = nb * 256;
+	this->_fixedValue = nb * (1 << Fixed::_commaStorage);
 }
 
 Fixed::Fixed(const float nb)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->_fixedValue = roundf(nb * 256);
+	this->_fixedValue = roundf(nb * (1 << Fixed::_commaStorage));
 }
 
 Fixed::~Fixed(void)
@@ -47,10 +45,8 @@ Fixed	&Fixed::operator=(const Fixed &src)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &src)
-	{
 		this->_fixedValue = src._fixedValue;
-	}
-	return *this;
+	return (*this);
 }
 
 int	Fixed::operator>(Fixed const &src) const
@@ -106,65 +102,57 @@ Fixed	Fixed::operator/(Fixed const &src) const
 Fixed	Fixed::operator++(int)
 {
 	Fixed	tmp(*this);
-	this->_fixedValue++;
+	++this->_fixedValue;
 	return(tmp);
 }
 
 Fixed	Fixed::operator--(int)
 {
 	Fixed	tmp(*this);
-	this->_fixedValue--;
+	--this->_fixedValue;
 	return(tmp);
 }
 
 Fixed	&Fixed::operator++()
 {
-	this->_fixedValue++; 
+	++this->_fixedValue; 
 	return(*this);
 }
 
 Fixed	&Fixed::operator--()
 {
-	this->_fixedValue--; 
+	--this->_fixedValue; 
 	return(*this);
 }
 
 Fixed	&Fixed::min(Fixed &nb1, Fixed &nb2)
 {
-	if (nb1 < nb2)
-		return (nb1);
-	return (nb2);
+	return (nb1 < nb2 ? nb1 : nb2);
 }
 
 const Fixed	&Fixed::min(Fixed const &nb1, Fixed const &nb2)
 {
-	if (nb1 < nb2)
-		return (nb1);
-	return (nb2);
+	return (nb1 < nb2 ? nb1 : nb2);
 }
 
 Fixed	&Fixed::max(Fixed &nb1, Fixed &nb2)
 {
-	if (nb1 > nb2)
-		return (nb1);
-	return (nb2);
+	return (nb1 > nb2 ? nb1 : nb2);
 }
 
 const Fixed	&Fixed::max(Fixed const &nb1, Fixed const &nb2)
 {
-	if (nb1 > nb2)
-		return (nb1);
-	return (nb2);
+	return (nb1 > nb2 ? nb1 : nb2);
 }
 
 float Fixed::toFloat( void ) const
 {
-	return ((float)this->_fixedValue / 256.0);
+	return ((float)this->_fixedValue / (1 << Fixed::_commaStorage));
 }
 
 int Fixed::toInt( void ) const
 {
-	return (this->_fixedValue / 256);
+	return (this->_fixedValue / (1 << Fixed::_commaStorage));
 }
 
 int Fixed::getRawBits( void ) const

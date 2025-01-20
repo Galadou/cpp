@@ -1,11 +1,12 @@
-NAME = Polymorphisme
+NAME = Burn
 
 SRCS = 	main.cpp\
 		Cat.cpp\
 		Dog.cpp\
 		Animal.cpp\
 		WrongAnimal.cpp\
-		WrongCat.cpp
+		WrongCat.cpp\
+		Brain.cpp
 
 OBJS=$(SRCS:.cpp=.o)
 

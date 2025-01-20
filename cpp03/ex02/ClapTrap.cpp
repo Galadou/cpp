@@ -31,7 +31,7 @@ ClapTrap	&ClapTrap::operator=(const ClapTrap &src)
 	return (*this);
 }
 
-ClapTrap::ClapTrap(std::string name) : _hit(10), _energy(10), _attack_dmg(0)
+ClapTrap::ClapTrap(std::string &name) : _hit(10), _energy(10), _attack_dmg(0)
 {
 	std::cout << std::endl << "Constructor initializing name of ClapTrap called." << std::endl;
 	this->_name = name;

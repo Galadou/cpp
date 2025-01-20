@@ -34,7 +34,7 @@ FragTrap	&FragTrap::operator=(const FragTrap &src)
 	return (*this);
 }
 
-FragTrap::FragTrap(std::string name) : ClapTrap(name)
+FragTrap::FragTrap(std::string &name) : ClapTrap(name)
 {
 	std::cout << "Constructor initializing name of FragTrap called." << std::endl;
 	this->_hit = 100;
@@ -46,10 +46,10 @@ FragTrap::FragTrap(std::string name) : ClapTrap(name)
 
 void	FragTrap::highFivesGuys(void)
 {
-	if (!this->_energy || !this->_hit)
+	if (!this->_energy || this->_hit < 1)
 	{
 		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m!"<< std::endl;
 		return;
 	}
-	std::cout << " FragTrap is now in Gate keeper mode" << std::endl;
+	std::cout << "FragTrap want to High Fives with you !" << std::endl;
 }

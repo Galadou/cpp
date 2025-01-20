@@ -8,7 +8,7 @@ Brain::Brain()
 
 Brain::~Brain()
 {
-	std::cout << "Destructor of Brain called." << std::endl << std::endl;
+	std::cout << "Destructor of Brain called." << std::endl;
 	return;
 }
 
