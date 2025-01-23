@@ -7,25 +7,23 @@
 
 int main()
 {
-	int nb = 2;
-	Animal	*animal[nb]; //= {new Dog(), new Cat()};
-	Cat *Cat1 = new Cat();
-	animal[0] = Cat1;
+	Animal	*animal[2] = {new Dog(), new Cat()};
 
-	//animal[0]->ideas[0] = "salut";
+	animal[0]->makeSound();
+	animal[1]->makeSound();
+	Cat *Cat1 = new Cat(); // pourquoi allouer ?
+
 	Brain Brain1;
-	Brain1.ideas[0] = "coucou";
-	Brain1.ideas[1] = "Salut";
+	Brain1.ideas[0] = "salut";
 	Cat1->setBrain(Brain1);
-	
-	//animal[1]->ideas[0] = "coucou";
+	Cat *Cat2(Cat1); // pourquoi allouer ?
 
-	std::cout << Cat1->getBrain()->ideas[0] << std::endl;
-	//std::cout << animal[0]->getBrain() << std::endl;
-	//std::cout << animal[1]->ideas[0] << std::endl;
+	delete Cat1;
+	std::cout << Cat2->getBrain()->ideas[0] << std::endl;
 
 
-	for(int i = 0; i < nb; i++)
+
+	for(int i = 0; i < 2; i++)
 		delete animal[i];
 	return 0;
 }

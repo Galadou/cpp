@@ -39,8 +39,8 @@ Brain	*Cat::getBrain() const
 	return (this->_Brain);
 }
 
-void	Cat::setBrain(const Brain newBrain)
+void	Cat::setBrain(const Brain &newBrain)
 {
 	delete this->_Brain;
-	this->_Brain = Brain(newBrain);
+	this->_Brain = new Brain(newBrain);
 }

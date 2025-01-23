@@ -10,9 +10,9 @@ class Brain
 		~Brain();
 		Brain(Brain const &cpy);
 		Brain	&operator=(Brain const &src);
-		std::string ideas[100]; //pas de _ ???
-
+		
 	private:
+		std::string _ideas[100];
 };
 
 #endif
