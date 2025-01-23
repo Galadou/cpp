@@ -2,7 +2,6 @@
 # define CAT_HPP
 
 #include <iostream>
-
 #include "Animal.hpp"
 #include "Brain.hpp"
 
@@ -14,7 +13,9 @@ class Cat: public Animal
 		Cat(Cat const &cpy);
 		Cat	&operator=(Cat const &src);
 
-		virtual void	makeSound() const;
+		void	makeSound() const;
+		Brain	*getBrain() const;
+		void	setBrain(const Brain &newBrain);
 	private:
 		Brain *_Brain;
 };

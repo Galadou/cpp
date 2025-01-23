@@ -19,7 +19,4 @@ class Animal
 		std::string _type;
 };
 
-#include "Cat.hpp"
-#include "Dog.hpp"
-
 #endif

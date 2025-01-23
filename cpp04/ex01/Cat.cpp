@@ -33,3 +33,14 @@ void	Cat::makeSound() const
 {
 	std::cout << "MIAOU" << std::endl;
 }
+
+Brain	*Cat::getBrain() const
+{
+	return (this->_Brain);
+}
+
+void	Cat::setBrain(const Brain newBrain)
+{
+	delete this->_Brain;
+	this->_Brain = Brain(newBrain);
+}
