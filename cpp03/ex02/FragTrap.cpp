@@ -48,8 +48,8 @@ void	FragTrap::highFivesGuys(void)
 {
 	if (!this->_energy || this->_hit < 1)
 	{
-		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m!"<< std::endl;
+		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m!\033[0m"<< std::endl;
 		return;
 	}
-	std::cout << "FragTrap want to High Fives with you !" << std::endl;
+	std::cout << "FragTrap want to High Fives you !" << std::endl;
 }

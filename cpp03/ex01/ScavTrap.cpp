@@ -63,7 +63,7 @@ void	ScavTrap::guardGate()
 {
 	if (!this->_energy || this->_hit < 1)
 	{
-		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m!"<< std::endl;
+		std::cout << "\033[93mNo energy or life left\033[0m. \033[31m!\033[0m"<< std::endl;
 		return;
 	}
 	std::cout << "ScavTrap is now in Gate keeper mode" << std::endl;
