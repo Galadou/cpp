@@ -1,0 +1,22 @@
+#ifndef ANIMAL_HPP
+# define ANIMAL_HPP
+
+#include <iostream>
+
+class Animal
+{
+	public:
+		virtual ~Animal();
+		Animal	&operator=(Animal const &src);
+
+		//with virtual, makeSound can be redefined by inherited class
+		virtual void	makeSound() const;
+		const std::string	&getType() const;
+		
+	protected:
+		Animal();
+		Animal(Animal const &cpy);
+		std::string _type;
+};
+
+#endif
