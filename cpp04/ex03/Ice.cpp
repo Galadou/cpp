@@ -1,6 +1,6 @@
 #include "Ice.hpp"
 
-Ice::Ice()
+Ice::Ice() : AMateria("ice")
 {
 	return;
 }
@@ -9,12 +9,27 @@ Ice::~Ice()
 	return;
 }
 
-AMateria* Ice::clone() const
+Ice::Ice(Ice const &src)
 {
- //a faire
+	std::cout << "Copy constructor of Ice called." << std::endl;
+	*this = src;
 }
 
-void use(ICharacter& target)
+Ice	&Ice::operator=(const Ice &src)
 {
- //a faire
+	std::cout << "Copy assignment of Ice operator called" << std::endl;
+	//if (this != &src)
+	//	this->_type = src._type;
+	(void)src;
+	return (*this);
+}
+
+AMateria* Ice::clone() const
+{
+	return (new Ice(*this));
+}
+
+void Ice::use(ICharacter& target)
+{
+	std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
 }
