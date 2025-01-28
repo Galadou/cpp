@@ -6,15 +6,6 @@
 #include "Ice.hpp"
 #include "Cure.hpp"
 
-// int main()
-// {
-// 	std::vector<AMateria*> ground;
-// 	//cure est alloué forcement ?? 
-// 	//pareil pour cure
-// 	Character joueur1("José", ground);
-
-// }
-
 int main()
 {
 	IMateriaSource* src = new MateriaSource();
@@ -26,9 +17,12 @@ int main()
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
+	tmp = src->createMateria("ice");
+	me->equip(tmp);
 	ICharacter* bob = new Character("bob");
 	me->use(0, *bob);
 	me->use(1, *bob);
+	me->use(3, *bob);
 	delete bob;
 	delete me;
 	delete src;
