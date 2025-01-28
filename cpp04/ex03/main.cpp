@@ -1,5 +1,3 @@
-
-#include <vector>
 #include <iostream>
 #include "AMateria.hpp"
 #include "IMateriaSource.hpp"

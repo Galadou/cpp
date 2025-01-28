@@ -18,8 +18,6 @@ Ice::Ice(Ice const &src)
 Ice	&Ice::operator=(const Ice &src)
 {
 	std::cout << "Copy assignment of Ice operator called" << std::endl;
-	//if (this != &src)
-	//	this->_type = src._type;
 	(void)src;
 	return (*this);
 }
