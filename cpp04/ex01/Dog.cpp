@@ -18,14 +18,19 @@ Dog::~Dog()
 Dog::Dog(Dog const &src)
 {
 	std::cout << "Copy constructor of Dog called." << std::endl;
+	this->_Brain = 0;
 	*this = src;
 }
 
 Dog	&Dog::operator=(const Dog &src)
 {
 	std::cout << "Copy assignment of Dog operator called" << std::endl;
-	if (this != &src)
-		this->_type = src._type;
+	if (this == &src)
+		return (*this);
+	this->_type = src._type;
+	if (this->_Brain)
+		delete this->_Brain;
+	this->_Brain = new Brain(*(src._Brain));
 	return (*this);
 }
 

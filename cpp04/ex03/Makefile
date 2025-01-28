@@ -1,4 +1,4 @@
-NAME = Burn
+NAME = AMateria
 
 SRCS = 	main.cpp\
 		AMateria.cpp\

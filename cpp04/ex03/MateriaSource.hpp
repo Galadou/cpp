@@ -5,6 +5,8 @@
 #include "IMateriaSource.hpp"
 #include <iostream>
 
+# define AS_SPELLBOOK dynamic_cast<MateriaSource *>
+
 class MateriaSource : public IMateriaSource
 {
 	public:

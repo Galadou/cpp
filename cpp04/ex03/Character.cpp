@@ -1,6 +1,14 @@
 #include "Character.hpp"
 
 //Default constructor
+Character::Character() : _idx(0), _name("John Doe") 
+{
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = NULL;
+	for (int i = 0; i < 100; i++)
+		this->_ground[i] = NULL;
+}
+
 Character::Character(const std::string name) : _idx(0), _name(name)
 {
 	for (int i = 0; i < 4; i++)
@@ -27,6 +35,10 @@ Character::~Character()
 Character::Character(Character const &src)
 {
 	std::cout << "Copy constructor of Character called." << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = NULL;
+	for (int i = 0; i < 100; i++)
+		this->_ground[i] = NULL;
 	*this = src;
 }
 
@@ -76,7 +88,7 @@ void Character::unequip(int idx)
 {
 	int	i;
 	
-	if (idx < 4 && this->_inventory[idx] != NULL)
+	if (idx < 4 && idx >= 0 && this->_inventory[idx] != NULL)
 	{
 		i = 0;
 		for (i = 0; this->_ground[i]; i++) {}
@@ -93,6 +105,6 @@ void Character::unequip(int idx)
 }
 void Character::use(int idx, ICharacter& target)
 {
-	if (this->_inventory[idx])
+	if (idx < 4 && idx >= 0 && this->_inventory[idx])
 		this->_inventory[idx]->use(target);
 }

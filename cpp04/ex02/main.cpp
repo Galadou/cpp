@@ -1,27 +1,31 @@
 
-#include "Animal.hpp"
+#include "AAnimal.hpp"
 #include "WrongAnimal.hpp"
 #include "Brain.hpp"
 #include "Cat.hpp"
 #include "Dog.hpp"
 
+#define SIZE 10
+//copier les dog.cpp, cat.cpp, brain.cpp du ex01 dans cet exercice
+
 int main()
 {
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	delete j;
-	delete i;
+	// AAnimal test; // this doesn't compile
+
+	AAnimal	*animal[SIZE];
+	for (int i = 0; i < SIZE; ++i) {
+		if (i % 2)
+			animal[i] = new Dog();
+		else
+			animal[i] = new Cat();
+	}
 
 	std::cout << std::endl;
-
-	Animal	*animal[2] = {new Dog(), new Cat()};
-
-	std::cout << std::endl;
-	animal[0]->makeSound();
-	animal[1]->makeSound();
+	for (int i = 0; i < SIZE; i++)
+		animal[i]->makeSound();
 	std::cout << std::endl;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < SIZE; i++)
 		delete animal[i];
 
 	return 0;

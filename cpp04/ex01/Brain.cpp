@@ -21,7 +21,9 @@ Brain::Brain(Brain const &src)
 Brain	&Brain::operator=(const Brain &src)
 {
 	std::cout << "Copy assignment of Brain operator called" << std::endl;
-	if (this != &src)
-		this->_ideas[100] = src._ideas[100]; //NOT SHURE
+	if (this == &src)
+		return (*this);
+	for (int i = 0; i < 100; i++)
+		this->_ideas[i] = src._ideas[i];
 	return (*this);
 }

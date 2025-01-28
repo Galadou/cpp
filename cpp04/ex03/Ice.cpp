@@ -9,7 +9,7 @@ Ice::~Ice()
 	return;
 }
 
-Ice::Ice(Ice const &src)
+Ice::Ice(Ice const &src) : AMateria("ice")
 {
 	std::cout << "Copy constructor of Ice called." << std::endl;
 	*this = src;

@@ -3,7 +3,7 @@ NAME = Burn
 SRCS = 	main.cpp\
 		Cat.cpp\
 		Dog.cpp\
-		Animal.cpp\
+		AAnimal.cpp\
 		WrongAnimal.cpp\
 		WrongCat.cpp\
 		Brain.cpp

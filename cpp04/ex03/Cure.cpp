@@ -9,7 +9,7 @@ Cure::~Cure()
 	return;
 }
 
-Cure::Cure(Cure const &src)
+Cure::Cure(Cure const &src) : AMateria("cure")
 {
 	std::cout << "Copy constructor of Cure called." << std::endl;
 	*this = src;
