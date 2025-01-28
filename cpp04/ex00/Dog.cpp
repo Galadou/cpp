@@ -9,7 +9,7 @@ Dog::Dog()
 
 Dog::~Dog()
 {
-	std::cout << "Destructor of Dog called." << std::endl << std::endl;
+	std::cout << "Destructor of Dog called." << std::endl;
 	return;
 }
 

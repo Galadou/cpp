@@ -17,7 +17,6 @@ MateriaSource::~MateriaSource()
 
 MateriaSource::MateriaSource(MateriaSource const &src)
 {
-	std::cout << "Copy constructor of MateriaSource called." << std::endl;
 	for (int i = 0; i < 4; i++)
 		this->_inventory[i] = NULL;
 	*this = src;
@@ -25,7 +24,6 @@ MateriaSource::MateriaSource(MateriaSource const &src)
 
 MateriaSource	&MateriaSource::operator=(const MateriaSource &src)
 {
-	std::cout << "Copy assignment of MateriaSource operator called" << std::endl;
 	if (this != &src)
 	{
 		for (int i = 0; i < 4; i++)
@@ -50,7 +48,6 @@ void MateriaSource::learnMateria(AMateria* src)
 			return;
 		}
 	}
-	//delete src;
 }
 
 AMateria* MateriaSource::createMateria(std::string const & type)

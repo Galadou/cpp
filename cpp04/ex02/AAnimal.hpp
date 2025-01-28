@@ -11,7 +11,6 @@ class AAnimal
 		AAnimal	&operator=(AAnimal const &src);
 		virtual ~AAnimal();
 
-		//with virtual, makeSound can be redefined by inherited class
 		virtual void	makeSound() const = 0;
 		const std::string	&getType() const;
 		

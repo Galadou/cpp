@@ -1,4 +1,4 @@
-NAME = Burn
+NAME = Abstract
 
 SRCS = 	main.cpp\
 		Cat.cpp\

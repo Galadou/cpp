@@ -11,13 +11,11 @@ Cure::~Cure()
 
 Cure::Cure(Cure const &src) : AMateria("cure")
 {
-	std::cout << "Copy constructor of Cure called." << std::endl;
 	*this = src;
 }
 
 Cure	&Cure::operator=(const Cure &src)
 {
-	std::cout << "Copy assignment of Cure operator called" << std::endl;
 	(void)src;
 	return (*this);
 }

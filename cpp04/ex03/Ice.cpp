@@ -11,13 +11,11 @@ Ice::~Ice()
 
 Ice::Ice(Ice const &src) : AMateria("ice")
 {
-	std::cout << "Copy constructor of Ice called." << std::endl;
 	*this = src;
 }
 
 Ice	&Ice::operator=(const Ice &src)
 {
-	std::cout << "Copy assignment of Ice operator called" << std::endl;
 	(void)src;
 	return (*this);
 }

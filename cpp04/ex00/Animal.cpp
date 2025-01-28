@@ -8,7 +8,7 @@ Animal::Animal()
 
 Animal::~Animal()
 {
-	std::cout << "Destructor of Animal called." << std::endl << std::endl;
+	std::cout << "Destructor of Animal called." << std::endl;
 	return;
 }
 

@@ -9,7 +9,7 @@ Cat::Cat()
 
 Cat::~Cat()
 {
-	std::cout << "Destructor of Cat called." << std::endl << std::endl;
+	std::cout << "Destructor of Cat called." << std::endl;
 	return;
 }
 

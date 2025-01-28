@@ -8,7 +8,7 @@ WrongAnimal::WrongAnimal()
 
 WrongAnimal::~WrongAnimal()
 {
-	std::cout << "Destructor of WrongAnimal called." << std::endl << std::endl;
+	std::cout << "Destructor of WrongAnimal called." << std::endl;
 	return;
 }
 

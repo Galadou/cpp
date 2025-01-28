@@ -1,4 +1,3 @@
-
 #include "AAnimal.hpp"
 #include "WrongAnimal.hpp"
 #include "Brain.hpp"
@@ -6,7 +5,6 @@
 #include "Dog.hpp"
 
 #define SIZE 10
-//copier les dog.cpp, cat.cpp, brain.cpp du ex01 dans cet exercice
 
 int main()
 {

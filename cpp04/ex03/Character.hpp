@@ -1,5 +1,5 @@
 #ifndef CHARACTER_HPP
-#define CHARACTER_HPP
+# define CHARACTER_HPP
 
 #include "ICharacter.hpp"
 #include "AMateria.hpp"
@@ -22,7 +22,6 @@ class Character : public ICharacter
 		int _idx;
 		std::string _name;
 		AMateria *_inventory[4];
-		
 		AMateria *_ground[100];
 };
 

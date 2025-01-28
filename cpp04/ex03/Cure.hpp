@@ -13,7 +13,6 @@ class Cure : public AMateria
 		Cure(Cure const &cpy);
 
 		AMateria* clone() const;
-
 		void use(ICharacter& target);
 };
  

@@ -11,7 +11,6 @@ class Animal
 		Animal(Animal const &cpy);
 		Animal	&operator=(Animal const &src);
 
-		//with virtual, makeSound can be redefined by inherited class
 		virtual void	makeSound() const;
 		const std::string	&getType() const;
 		

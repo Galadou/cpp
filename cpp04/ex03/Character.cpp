@@ -31,10 +31,8 @@ Character::~Character()
 	}
 }
 
-
 Character::Character(Character const &src)
 {
-	std::cout << "Copy constructor of Character called." << std::endl;
 	for (int i = 0; i < 4; i++)
 		this->_inventory[i] = NULL;
 	for (int i = 0; i < 100; i++)
@@ -44,7 +42,6 @@ Character::Character(Character const &src)
 
 Character	&Character::operator=(const Character &src)
 {
-	std::cout << "Copy assignment of Character operator called" << std::endl;
 	if (this != &src)
 	{
 		for (int i = 0; i < 4; i++)
@@ -101,8 +98,10 @@ void Character::unequip(int idx)
 		}
 		this->_inventory[idx] = NULL;
 	}
-	std::cout << "Already no Materia in hand" << std::endl;
+	else
+		std::cout << "Already no Materia in hand" << std::endl;
 }
+
 void Character::use(int idx, ICharacter& target)
 {
 	if (idx < 4 && idx >= 0 && this->_inventory[idx])

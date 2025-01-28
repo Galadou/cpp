@@ -9,7 +9,7 @@ WrongCat::WrongCat()
 
 WrongCat::~WrongCat()
 {
-	std::cout << "Destructor of WrongCat called." << std::endl << std::endl;
+	std::cout << "Destructor of WrongCat called." << std::endl;
 	return;
 }
 

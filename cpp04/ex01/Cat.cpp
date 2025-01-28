@@ -18,7 +18,7 @@ Cat::~Cat()
 Cat::Cat(Cat const &src)
 {
 	std::cout << "Copy constructor of Cat called." << std::endl;
-	this->_Brain = 0;
+	this->_Brain = NULL;
 	*this = src;
 }
 

@@ -18,14 +18,19 @@ Cat::~Cat()
 Cat::Cat(Cat const &src)
 {
 	std::cout << "Copy constructor of Cat called." << std::endl;
+	this->_Brain = NULL;
 	*this = src;
 }
 
 Cat	&Cat::operator=(const Cat &src)
 {
 	std::cout << "Copy assignment of Cat operator called" << std::endl;
-	if (this != &src)
-		this->_type = src._type;
+	if (this == &src)
+		return (*this);
+	this->_type = src._type;
+	if (this->_Brain)
+		delete this->_Brain;
+	this->_Brain = new Brain(*(src._Brain));
 	return (*this);
 }
 
