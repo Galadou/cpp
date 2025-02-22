@@ -20,13 +20,6 @@ class Form
 		void	beSigned(Bureaucrat &src);
 
 	private:
-		struct GradeTooHighException : public std::exception
-		{
-			const char* what() const throw()
-			{
-				return ("Grade is too high !");
-			}
-		};
 		struct GradeTooLowException : public std::exception
 		{
 			const char* what() const throw()

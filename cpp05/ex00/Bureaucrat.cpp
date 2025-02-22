@@ -22,9 +22,9 @@ Bureaucrat &Bureaucrat::operator=(Bureaucrat const &srcs)
 Bureaucrat::Bureaucrat(std::string const &name, int grade) : _name(name)
 {
 	if (grade > 150)
-		throw GradeTooHighException();
-	if (grade < 1)
 		throw GradeTooLowException();
+	if (grade < 1)
+		throw GradeTooHighException();
 	this->_grade = grade;
 }
 

@@ -13,9 +13,7 @@ Bureaucrat::Bureaucrat(Bureaucrat const &srcs)
 Bureaucrat &Bureaucrat::operator=(Bureaucrat const &srcs)
 { 
 	if (this != &srcs)
-	{
 		this->_grade = srcs._grade;
-	}
 	return (*this);
 }
 
@@ -52,7 +50,7 @@ void		Bureaucrat::decrementGrade()
 	this->_grade++;
 }
 
-void	Bureaucrat::signForm(Form &src)
+void	Bureaucrat::signForm(AForm &src)
 {
 	try
 	{
