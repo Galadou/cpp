@@ -1,7 +1,7 @@
 
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm() : AForm("Shruberry", false, 72, 45, "Roger")
+RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("Robotomy request", false, 72, 45, target)
 {
 
 }

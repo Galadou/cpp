@@ -27,6 +27,13 @@ class Form
 				return ("Grade is too low !");
 			}
 		};
+		struct AlreadySigned : public std::exception
+		{
+			const char* what() const throw()
+			{
+				return ("Form is already signed !");
+			}
+		};
 
 		std::string const	_name;
 		bool				_signed;

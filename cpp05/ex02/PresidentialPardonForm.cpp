@@ -1,7 +1,7 @@
 
 #include "PresidentialPardonForm.hpp"
 
-PresidentialPardonForm::PresidentialPardonForm() : AForm("Shruberry", false, 25, 5, "Roger")
+PresidentialPardonForm::PresidentialPardonForm(std::string target) : AForm("President request", false, 25, 5, target)
 {
 
 }
@@ -9,7 +9,7 @@ PresidentialPardonForm::PresidentialPardonForm() : AForm("Shruberry", false, 25,
 PresidentialPardonForm::~PresidentialPardonForm() {}
 
 //cpy constructor
-PresidentialPardonForm::PresidentialPardonForm(PresidentialPardonForm const &srcs) : AForm("Shruberry", false, 25, 5, "Roger")
+PresidentialPardonForm::PresidentialPardonForm(PresidentialPardonForm const &srcs) : AForm("President request", false, 25, 5, "Roger")
 {
 	*this = srcs;
 }

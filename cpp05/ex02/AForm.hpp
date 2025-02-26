@@ -7,7 +7,7 @@
 class AForm
 {
 	public:
-		AForm();
+		AForm(std::string target);
 		virtual ~AForm();
 		AForm(AForm const &srcs);
 		AForm &operator=(AForm const &srcs);
@@ -35,7 +35,7 @@ class AForm
 		{
 			const char* what() const throw()
 			{
-				return ("Grade is too low !");
+				return ("Form is already signed !");
 			}
 		};
 

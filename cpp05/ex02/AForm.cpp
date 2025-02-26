@@ -1,7 +1,7 @@
 
 #include "AForm.hpp"
 
-AForm::AForm() : _name("Bob"), _signed(false), _gradeToSign(5), _gradeToExec(1), _target("Roger") {}
+AForm::AForm(std::string target) : _name("Bob"), _signed(false), _gradeToSign(5), _gradeToExec(1), _target(target) {}
 
 AForm::~AForm() {}
 
@@ -14,7 +14,11 @@ AForm::AForm(AForm const &srcs) : _name("Bob"), _signed(false), _gradeToSign(5),
 AForm &AForm::operator=(AForm const &srcs)
 { 
 	if (this != &srcs)
+	{
 		this->_signed = srcs._signed;
+		this->_target = srcs._target;
+	}
+
 	return (*this);
 }
 
