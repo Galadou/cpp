@@ -30,15 +30,17 @@ int	main()
 		std::cout << e.what() << std::endl;
 	}
 
+	std::cout << std::endl;
+
 	//test for Robotomy
 	try 
 	{
 		std::string name = "bob";
-		RobotomyRequestForm robot("John");
+		RobotomyRequestForm robot("Tommy");
 		Bureaucrat bureaucrat(name, 6);
 
 		//we try to execute without sign it and with a too low grade
-		robot.execute(bureaucrat);
+		//robot.execute(bureaucrat);
 
 		//we increment it to has a good grade
 		bureaucrat.incrementGrade();
@@ -52,22 +54,24 @@ int	main()
 		std::cout << e.what() << std::endl;
 	}
 
-	//test for Robotomy
+	std::cout << std::endl;
+
+	//test for Shruberry
 	try 
 	{
 		std::string name = "bob";
-		RobotomyRequestForm robot("John");
+		ShrubberyCreationForm Shrub("Patrik");
 		Bureaucrat bureaucrat(name, 6);
 
 		//we try to execute without sign it and with a too low grade
-		robot.execute(bureaucrat);
+		//Shrub.execute(bureaucrat);
 
 		//we increment it to has a good grade
 		bureaucrat.incrementGrade();
 
 		//now we sign vbefore, should work
-		bureaucrat.signForm(robot);
-		robot.execute(bureaucrat);
+		bureaucrat.signForm(Shrub);
+		Shrub.execute(bureaucrat);
 	}
 	catch (std::exception &e)
 	{
