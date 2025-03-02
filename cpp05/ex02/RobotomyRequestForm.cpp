@@ -9,7 +9,7 @@ RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("Robotomy r
 RobotomyRequestForm::~RobotomyRequestForm() {}
 
 //cpy constructor
-RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &srcs) : AForm("Shruberry", false, 72, 45, "Roger")
+RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &srcs) : AForm("Robotomy request", false, 72, 45, "Roger")
 {
 	*this = srcs;
 }
