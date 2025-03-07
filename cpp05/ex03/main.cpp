@@ -7,12 +7,12 @@
 
 int	main()
 {
+	AForm *form = NULL;
 	try
 	{
 		std::string name = "bob";
-		Bureaucrat bureaucrat(name, 6);
+		Bureaucrat bureaucrat(name, 151);
 		Intern coffeMaker;
-		AForm *form;
 
 		form = coffeMaker.makeForm("Robotomy request", "José");
 		std::cout << "Form is " << form->getName() << std::endl;
@@ -25,5 +25,6 @@ int	main()
 	{
 		std::cerr << e.what() << std::endl;
 	}
-	
+	if (form)
+		delete form;
 }

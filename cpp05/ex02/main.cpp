@@ -7,7 +7,7 @@
 int	main()
 {
 	//?try to comment some block to check all test
-	//try for president.
+	//test for president.
 	try 
 	{
 		std::string name = "bob";
