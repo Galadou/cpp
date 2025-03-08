@@ -11,7 +11,7 @@ int	main()
 	try
 	{
 		std::string name = "bob";
-		Bureaucrat bureaucrat(name, 151);
+		Bureaucrat bureaucrat(name, 6);
 		Intern coffeMaker;
 
 		form = coffeMaker.makeForm("Robotomy request", "José");
