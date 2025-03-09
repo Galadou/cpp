@@ -22,6 +22,7 @@ class Bureaucrat
 		void		decrementGrade();
 
 		void	signForm(AForm &src);
+		void	executeForm(AForm const & form);
 
 	private:
 

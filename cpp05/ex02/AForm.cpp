@@ -24,6 +24,11 @@ AForm &AForm::operator=(AForm const &srcs)
 
 AForm::AForm(std::string name, bool isSigned, int gradeToSign, int gradeToExec, std::string target) : _name(name), _gradeToSign(gradeToSign), _gradeToExec(gradeToExec)
 {
+	if (gradeToSign < 1 || gradeToExec < 1)
+		throw GradeTooLowException();
+	if (gradeToSign > 150 || gradeToExec > 150)
+		throw GradeTooHighException();
+
 	this->_signed = isSigned;
 	this->_target = target;
 }

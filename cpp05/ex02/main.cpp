@@ -15,7 +15,8 @@ int	main()
 		Bureaucrat bureaucrat(name, 6);
 
 		//we try to execute without sign it and with a too low grade
-		//President.execute(bureaucrat);
+		bureaucrat.executeForm(President);
+
 
 		//we increment it to has a good grade
 		bureaucrat.incrementGrade();
@@ -23,7 +24,7 @@ int	main()
 		//now we sign vbefore, should work
 		bureaucrat.signForm(President);
 		bureaucrat.signForm(President);
-		President.execute(bureaucrat);
+		bureaucrat.executeForm(President);
 	}
 	catch (std::exception &e)
 	{
@@ -40,14 +41,14 @@ int	main()
 		Bureaucrat bureaucrat(name, 6);
 
 		//we try to execute without sign it and with a too low grade
-		//robot.execute(bureaucrat);
+		bureaucrat.executeForm(robot);
 
 		//we increment it to has a good grade
 		bureaucrat.incrementGrade();
 
 		//now we sign vbefore, should work
 		bureaucrat.signForm(robot);
-		robot.execute(bureaucrat);
+		bureaucrat.executeForm(robot);
 	}
 	catch (std::exception &e)
 	{
@@ -64,14 +65,14 @@ int	main()
 		Bureaucrat bureaucrat(name, 6);
 
 		//we try to execute without sign it and with a too low grade
-		//Shrub.execute(bureaucrat);
+		bureaucrat.executeForm(Shrub);
 
 		//we increment it to has a good grade
 		bureaucrat.incrementGrade();
 
 		//now we sign vbefore, should work
 		bureaucrat.signForm(Shrub);
-		Shrub.execute(bureaucrat);
+		bureaucrat.executeForm(Shrub);
 	}
 	catch (std::exception &e)
 	{

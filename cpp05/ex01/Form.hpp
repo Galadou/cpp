@@ -11,6 +11,8 @@ class Form
 		~Form();
 		Form(Form const &srcs);
 		Form &operator=(Form const &srcs);
+		
+		Form(std::string name, int gradeToSign, int gradeToExec);
 	
 		std::string getName() const;
 		bool		getSigned() const;
@@ -24,7 +26,14 @@ class Form
 		{
 			const char* what() const throw()
 			{
-				return ("Grade is too low !");
+				return ("Grade given is too low !");
+			}
+		};
+		struct GradeTooHighException : public std::exception
+		{
+			const char* what() const throw()
+			{
+				return ("Grade given is too High !");
 			}
 		};
 		struct AlreadySigned : public std::exception

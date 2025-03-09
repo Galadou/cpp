@@ -16,10 +16,10 @@ int	main()
 
 		form = coffeMaker.makeForm("Robotomy request", "José");
 		std::cout << "Form is " << form->getName() << std::endl;
-		std::cout << "And is target is " << form->getTarget() << std::endl;
-		
-		form->beSigned(bureaucrat);
-		form->execute(bureaucrat);
+		std::cout << "And it's target is " << form->getTarget() << std::endl;
+
+		bureaucrat.signForm(*form);
+		bureaucrat.executeForm(*form);
 	}
 	catch(const std::exception& e)
 	{

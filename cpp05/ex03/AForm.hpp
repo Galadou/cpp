@@ -31,6 +31,13 @@ class AForm
 				return ("Grade is too low !");
 			}
 		};
+		struct GradeTooHighException : public std::exception
+		{
+			const char* what() const throw()
+			{
+				return ("Grade given is too High !");
+			}
+		};
 		struct AlreadySigned : public std::exception
 		{
 			const char* what() const throw()
