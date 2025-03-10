@@ -21,9 +21,9 @@ Form &Form::operator=(Form const &srcs)
 Form::Form(std::string name, int gradeToSign, int gradeToExec) : _name(name), _signed(false), _gradeToSign(gradeToSign), _gradeToExec(gradeToExec)
 {
 	if (gradeToSign < 1 || gradeToExec < 1)
-		throw GradeTooLowException();
-	if (gradeToSign > 150 || gradeToExec > 150)
 		throw GradeTooHighException();
+	if (gradeToSign > 150 || gradeToExec > 150)
+		throw GradeTooLowException();
 }
 
 std::string Form::getName() const
