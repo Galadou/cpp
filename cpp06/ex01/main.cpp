@@ -15,7 +15,7 @@ int main(void)
 		std::cout << "Name of ptr is " << ptr->getName() << std::endl;
 		result = Serializer::serialize(ptr);
 		std::cout << "Ptr serialize = " << result << std::endl;
-
+ 
 		//We use a newPtr to be shure its not the same ptr.
 		newPtr = Serializer::deserialize(result);
 		std::cout << "name of newPtr is now " << newPtr->getName() << std::endl;

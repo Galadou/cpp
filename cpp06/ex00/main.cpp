@@ -15,9 +15,14 @@ static void	parsing(int argc, char **argv)
 		return;
 	if (!std::isdigit(str[0]) && str[0] != '-' && str.size() > 1)
 		throw std::invalid_argument("Error: You cannot give multiple char.");
+	// for (size_t i = 0; i < str.size(); i++)
+	// {
+	// 	if (!(i == 0 && str[i] == '-') && !isdigit(str[i]) && str[i] != '.')
+	// 		throw std::invalid_argument("Error: You cannot give multiple char.");
+	// }
 	if (std::isdigit(str[0]))
 	{
-		for (int i = 0; str[i]; i++)
+		for (size_t i = 0; str[i]; i++)
 		{
 			if (str[i] == '.')
 			{
@@ -35,8 +40,6 @@ static void	parsing(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
 	try
 	{
 		parsing(argc, argv);
