@@ -1,4 +1,3 @@
-#include <iostream>
 #include "ScalarConverter.hpp"
 
 static void	parsing(int argc, char **argv)
@@ -15,11 +14,6 @@ static void	parsing(int argc, char **argv)
 		return;
 	if (!std::isdigit(str[0]) && str[0] != '-' && str.size() > 1)
 		throw std::invalid_argument("Error: You cannot give multiple char.");
-	// for (size_t i = 0; i < str.size(); i++)
-	// {
-	// 	if (!(i == 0 && str[i] == '-') && !isdigit(str[i]) && str[i] != '.')
-	// 		throw std::invalid_argument("Error: You cannot give multiple char.");
-	// }
 	if (std::isdigit(str[0]))
 	{
 		for (size_t i = 0; str[i]; i++)
@@ -35,6 +29,11 @@ static void	parsing(int argc, char **argv)
 			else if (!std::isdigit(str[i]) && (str[i + 1] || str[i] != 'f'))
 				throw std::invalid_argument("Error: Digit and char cannot be mixed.");
 		}
+	} 
+	for (size_t i = 0; str[i]; i++)
+	{
+		if ((str[0] == '-' && i > 0 && !isdigit(str[i])) || (str[i] == '-' && i > 0))
+			throw std::invalid_argument("Error: You cannot give multiple char.");	
 	}
 }
 
