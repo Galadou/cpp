@@ -3,7 +3,9 @@
 static void	parsing(int argc, char **argv)
 {
 	std::string str;
-	bool point = false;
+	size_t posDot = 0;
+	size_t posMinus = 0;
+	size_t posF = 0;
 
 	if (argc != 2)
 		throw std::invalid_argument("Error: You have to give one param.");
@@ -12,28 +14,23 @@ static void	parsing(int argc, char **argv)
 		throw std::invalid_argument("Error: Param is empty.");
 	if (str == "nan" || str == "nanf" || str == "+inf" || str == "+inff" || str == "-inf" || str == "-inff")
 		return;
-	if (!std::isdigit(str[0]) && str[0] != '-' && str.size() > 1)
-		throw std::invalid_argument("Error: You cannot give multiple char.");
-	if (std::isdigit(str[0]))
+	posDot = str.find('.');
+	if (posDot != std::string::npos && str.find('.', posDot + 1) != std::string::npos)
+		throw std::invalid_argument("Error: You cannot give multiple dot.");
+	if (posDot != 0 && posDot != std::string::npos && (posDot == str.size() || !isdigit(str[posDot + 1])))
+		throw std::invalid_argument("Error: ivalid param.");
+	if (str.size() > 1 && ((str[0] != '-' && !std::isdigit(str[0])) || (str[0] == '-' && !std::isdigit(str[1]))))
+		throw std::invalid_argument("Error: ivalid param.");
+	posMinus = str.find('-');
+	if (posMinus != std::string::npos && posMinus != 0)
+		throw std::invalid_argument("Error: ivalid param.");
+	posF = str.find('f');
+	if (posF != std::string::npos && posF != str.size() -1)
+		throw std::invalid_argument("Error: ivalid param.");
+	for (size_t i = 0; i < str.size(); i++)
 	{
-		for (size_t i = 0; str[i]; i++)
-		{
-			if (str[i] == '.')
-			{
-				if (!str[i+1] || str[i+1] == 'f')
-					throw std::invalid_argument("Error: Need more number after a dot.");
-				if (point == true)
-					throw std::invalid_argument("Error: You cannot give multiple dot.");
-				point = true;
-			}
-			else if (!std::isdigit(str[i]) && (str[i + 1] || str[i] != 'f'))
-				throw std::invalid_argument("Error: Digit and char cannot be mixed.");
-		}
-	} 
-	for (size_t i = 0; str[i]; i++)
-	{
-		if ((str[0] == '-' && i > 0 && !isdigit(str[i])) || (str[i] == '-' && i > 0))
-			throw std::invalid_argument("Error: You cannot give multiple char.");	
+		if (str.size() > 1 && str[i] != '-' && str[i] != '.' && str[i] != 'f' && !isdigit(str[i]))
+			throw std::invalid_argument("Error: ivalid param.");
 	}
 }
 
@@ -48,6 +45,7 @@ int main(int argc, char **argv)
 		std::cout << e.what() << std::endl;
 		return (1);
 	}
+
 	try
 	{
 		ScalarConverter::convert(argv[1]);

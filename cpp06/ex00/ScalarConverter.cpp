@@ -199,7 +199,6 @@ void	ScalarConverter::convert(std::string str)
 	if (isPseudoLiterals(str))
 		return;
 	type = findType(str);
-	std::cout << type << std::endl;
 	try
 	{
 		exec(type, str);
