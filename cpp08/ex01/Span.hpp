@@ -29,7 +29,7 @@ class Span
 			{
 				return ("Error: Too many int inside the array !");
 			}
-		};
+		}; 
 		struct TooLittleIntStored : public std::exception
 		{
 			const char *what() const throw()

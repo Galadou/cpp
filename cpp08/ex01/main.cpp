@@ -16,9 +16,9 @@ int main()
 	{
 		try
 		{
-			Span sp(500);
+			Span sp(15000);
 
-			sp.addManyNumbers(300);
+			sp.addManyNumbers(10000);
 			std::cout << sp.shortestSpan() << std::endl;
 			std::cout << sp.longestSpan() << std::endl;
 		}
