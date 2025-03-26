@@ -3,14 +3,15 @@
 int main(void)
 {
 	std::cout << std::endl;
-	//test avec int
+
+	//test with int
 	{
 		unsigned int n = 5;
-		Array<int> array(n);
 		
 		try
 		{
-			//Ici, je test de print une case (fonctionne) et de modifié une case.
+			Array<int> array(n);
+			//Here I am testing to print a case (works) and to modify a case.
 			std::cout << "Ancienne valeur de la case 0: " << array[0] << std::endl;
 			array[0] = 3;
 			std::cout << "Nouvelle valeur apres l'avoir modifié: " << array[0] << std::endl;
@@ -23,13 +24,13 @@ int main(void)
 	}
 	std::cout << std::endl;
 
-	//je test avec des std::string
+	//I test with std::string
 	{
 		unsigned int n = 2;
-		Array<std::string> array(n);
 		try
 		{
-			//Ici, je test de print une case (fonctionne) et de modifié une case.
+			Array<std::string> array(n);
+			//Here I am testing to print a case (works) and to modify a case.
 			std::cout << "Ancienne valeur de la case 0: " << array[0] << std::endl;
 			array[0] = "salut";
 			std::cout << "Nouvelle valeur apres l'avoir modifié: " << array[0] << std::endl;
@@ -41,13 +42,13 @@ int main(void)
 	}
 	std::cout << std::endl;
 
-	//je test avec une erreur d'index
+	//I test with an index error
 	{
 		unsigned int n = 2;
-		Array<std::string> array(n);
 		try
 		{
-			//Ici, je test de print une case trop loin (ne fonctionne pas)
+			Array<std::string> array(n);
+			//Here, I test to print a case too far (doesn't work)
 			std::cout << "Ancienne valeur de la case 0: " << array[50] << std::endl;
 		}
 		catch(const std::exception& e)

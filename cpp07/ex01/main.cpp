@@ -15,7 +15,7 @@ int main( void )
 	int tab[5] = {1, 2, 3, 4, 5};
 	::iter(tab, 5, print);
 	
-	std::string array[2] = {"salut", "hey"};
+	std::string array[2] = {"Hello", "hey"};
 	::iter(array, 2, print);
 	return (0);
 }
