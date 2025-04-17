@@ -1,8 +1,7 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange(char **argv) 
+BitcoinExchange::BitcoinExchange(char **argv)
 {
-	_infile.open(argv[1]);
 	parsing(argv);
 }
 BitcoinExchange::~BitcoinExchange()
@@ -39,8 +38,12 @@ void	BitcoinExchange::parsing(char **arv)
 	size_t		pos;
 	std::string ext = ".txt";
 
+	_infile.open(arv[1]);
 	if (!this->_infile.is_open())
 		throw std::invalid_argument("Second arg should be a valid file.");
+	this->_data.open("data.csv");
+	if (!this->_data.is_open())
+		throw std::invalid_argument("Error on opening data.csv file.");
 	pos = fileName.find(ext);
 	if (pos != fileName.size() - ext.size())
 		throw std::invalid_argument("The file name must finish with '.txt'");
@@ -58,7 +61,7 @@ static void pars_date(std::string &line)
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
 	year = line.substr(0, pos1);
-	
+
 	pos2 = line.find('-', pos1 + 1);
 	if (pos2 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
@@ -94,8 +97,9 @@ static void pars_date(std::string &line)
 
 static void pars_value(std::string &line)
 {
-	size_t pos1;
-	std::string value;
+	size_t		pos1;
+	std::string	value;
+	bool		dot = false;
 
 	pos1 = line.find(" | ");
 	if (pos1 == std::string::npos)
@@ -107,11 +111,16 @@ static void pars_value(std::string &line)
 
 	if (std::strtod(value.c_str(), NULL) <= 0.0)
 		throw std::invalid_argument("Error: not a positive number.");
-	for (int i = 0; value[i]; i++)
+	for (size_t i = 0; value[i]; i++)
+	{
 		if (!std::isdigit(value[i]))
-			throw std::invalid_argument("Error: bad input");
-
-	//!Erreur, parfois met faux et parfois met pas derreur ???
+		{
+			if (value[i] == '.' && dot == false && i != 0 && i != value.size() - 1)
+				dot = true;
+			else
+				throw std::invalid_argument("Error: bad input");
+		}
+	}
 }
 
 
@@ -131,6 +140,6 @@ void	BitcoinExchange::exec()
 		{
 			std::cerr << e.what() << std::endl;
 		}
-		std::cout << "oui" << std::endl; 
+		std::cout << "oui" << std::endl;
 	}
 }

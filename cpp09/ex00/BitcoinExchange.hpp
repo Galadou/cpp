@@ -16,10 +16,11 @@ class BitcoinExchange
 
 		void	parsing(char **arv);
 		void	exec();
-	
+
 	private:
 		BitcoinExchange();
 		std::ifstream _infile;
+		std::ifstream _data;
 };
 
 #endif
