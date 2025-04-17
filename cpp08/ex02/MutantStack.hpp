@@ -10,10 +10,10 @@ template <typename T>
 class MutantStack : public std::stack<T>
 {
 	public:
-		MutantStack() {};
+		MutantStack() : std::stack<T>() {};
 		~MutantStack() {};
 		MutantStack(MutantStack const &src) {(void)src;};
-		MutantStack& operator=(MutantStack const &src) {(void)src;return (*this);};
+		MutantStack& operator=(MutantStack const &src) {(void)src; return (*this);};
 
 		typedef typename std::stack<T>::container_type::iterator iterator;
 
@@ -25,7 +25,6 @@ class MutantStack : public std::stack<T>
 		{
 			return (this->c.end());
 		}
-
 };
 
 

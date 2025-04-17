@@ -5,10 +5,6 @@
 #include <algorithm>
 #include <vector>
 
-//template <typename T>
-
-
-
 class Span
 {
 	public:

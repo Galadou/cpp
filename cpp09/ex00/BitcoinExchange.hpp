@@ -8,12 +8,13 @@
 class BitcoinExchange
 {
 	public:
-		BitcoinExchange(int argc, char **argv);
+		BitcoinExchange(char **argv);
 		~BitcoinExchange();
 		BitcoinExchange(BitcoinExchange &src);
 		BitcoinExchange &operator=(BitcoinExchange &src);
 
-		void	parsing(int arc);
+		void	parsing(char **arv);
+		void	exec();
 	
 	private:
 		BitcoinExchange();

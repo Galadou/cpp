@@ -36,7 +36,7 @@ void	Span::addNumber(int nb)
 
 int	Span::shortestSpan()
 {
-	std::vector<int> buf(this->_array); //constructeur par copy de vector
+	std::vector<int> buf(this->_array); //constructor by copy of vector
 	int nb;
 
 	if (this->_array.size() < 2)
