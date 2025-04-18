@@ -123,11 +123,26 @@ static void pars_value(std::string &line)
 	}
 }
 
+static void	data_parsing()
+{
+	std::string line_data;
 
+	while (std::getline(this->_data))
+}
 
 void	BitcoinExchange::exec()
 {
 	std::string line;
+
+	//parsing for data.csv
+	try
+	{
+		data_parsing();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << "in data.csv" << '\n';
+	}
 
 	while (std::getline(this->_infile, line))
 	{
@@ -135,6 +150,8 @@ void	BitcoinExchange::exec()
 		{
 			pars_date(line);
 			pars_value(line); //???
+			
+			
 		}
 		catch(const std::exception& e)
 		{
