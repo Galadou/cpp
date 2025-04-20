@@ -14,14 +14,27 @@ class BitcoinExchange
 		~BitcoinExchange();
 		BitcoinExchange(BitcoinExchange &src);
 		BitcoinExchange &operator=(BitcoinExchange &src);
+		void	parsing_file(char **arv);
+		//void	data_parsing();
 
-		void	parsing(char **arv);
 		void	exec();
 
 	private:
 		BitcoinExchange();
 		std::ifstream _infile;
 		std::ifstream _data;
+
+		//infile.txt
+		std::string _yearTxt;
+		std::string _monthTxt;
+		std::string _dayTxt;
+		std::string _valueTxt;
+
+		std::string _yearCsv;
+		std::string _monthCsv;
+		std::string _dayCsv;
+		std::string _valueCsv;
+
 };
 
 #endif

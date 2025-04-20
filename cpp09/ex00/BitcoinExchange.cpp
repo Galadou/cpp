@@ -2,7 +2,7 @@
 
 BitcoinExchange::BitcoinExchange(char **argv)
 {
-	parsing(argv);
+	parsing_file(argv);
 }
 BitcoinExchange::~BitcoinExchange()
 {
@@ -32,7 +32,7 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 	return (*this);
 }
 
-void	BitcoinExchange::parsing(char **arv)
+void	BitcoinExchange::parsing_file(char **arv)
 {
 	std::string fileName(arv[1]);
 	size_t		pos;
@@ -49,13 +49,10 @@ void	BitcoinExchange::parsing(char **arv)
 		throw std::invalid_argument("The file name must finish with '.txt'");
 }
 
-static void pars_date(std::string &line)
+void pars_date(std::string &line, std::string final_sep, std::string &year, std::string &month, std::string &day)
 {
 	size_t pos1;
 	size_t pos2;
-	std::string year;
-	std::string month;
-	std::string day;
 
 	pos1 = line.find('-');
 	if (pos1 == std::string::npos)
@@ -67,7 +64,7 @@ static void pars_date(std::string &line)
 		throw std::invalid_argument("Error: bad input");
 	month = line.substr(pos1 + 1, pos2 - pos1 - 1);
 	pos1 = pos2;
-	pos2 = line.find(" |", pos1 + 1);
+	pos2 = line.find(final_sep, pos1 + 1);
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
 	day = line.substr(pos1 + 1, pos2 - pos1 - 1);
@@ -95,21 +92,20 @@ static void pars_date(std::string &line)
 		throw std::invalid_argument("Error: bad input: day must be between 1 and 31");
 }
 
-static void pars_value(std::string &line)
+static void pars_value(std::string &line, std::string final_sep, std::string &value)
 {
 	size_t		pos1;
-	std::string	value;
 	bool		dot = false;
 
-	pos1 = line.find(" | ");
+	pos1 = line.find(final_sep);
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	value = line.substr(pos1 + 3, line.size() - pos1 - 1);
+	value = line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1);
 
 	//debug
 	std::cout << "value = " << value << std::endl;
 
-	if (std::strtod(value.c_str(), NULL) <= 0.0)
+	if (std::strtod(value.c_str(), NULL) < 0.0)
 		throw std::invalid_argument("Error: not a positive number.");
 	for (size_t i = 0; value[i]; i++)
 	{
@@ -123,35 +119,35 @@ static void pars_value(std::string &line)
 	}
 }
 
-static void	data_parsing()
-{
-	std::string line_data;
-
-	while (std::getline(this->_data))
-}
-
 void	BitcoinExchange::exec()
 {
 	std::string line;
+	std::string line_data;
 
 	//parsing for data.csv
 	try
 	{
-		data_parsing();
+		std::getline(this->_data, line_data); //skip first line
+		/*while */(std::getline(this->_data, line_data));
+		//{
+			pars_date(line_data, ",", _yearCsv, _monthCsv, _dayCsv); // parse la date du data.csv
+			pars_value(line_data, ",", _valueCsv);
+		//}
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << "in data.csv" << '\n';
+		std::cerr << e.what() << " in data.csv" << '\n';
+		return;
 	}
 
+
+	//parsing for .txt
 	while (std::getline(this->_infile, line))
 	{
 		try
 		{
-			pars_date(line);
-			pars_value(line); //???
-			
-			
+			pars_date(line, " |", _yearTxt, _monthTxt, _dayTxt);
+			pars_value(line, " | ", _valueTxt);
 		}
 		catch(const std::exception& e)
 		{
