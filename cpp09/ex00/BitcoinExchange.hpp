@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
+#include <vector>
 
 class BitcoinExchange
 {
@@ -14,26 +15,20 @@ class BitcoinExchange
 		~BitcoinExchange();
 		BitcoinExchange(BitcoinExchange &src);
 		BitcoinExchange &operator=(BitcoinExchange &src);
-		void	parsing_file(char **arv);
 		//void	data_parsing();
+		void	find_bitcoin_value(std::vector<std::string> &valueTxt);
 
 		void	exec();
 
 	private:
 		BitcoinExchange();
-		std::ifstream _infile;
-		std::ifstream _data;
+		std::ifstream	_infile;
+		std::string		_infileName;
+		std::ifstream	_data;
 
-		//infile.txt
-		std::string _yearTxt;
-		std::string _monthTxt;
-		std::string _dayTxt;
-		std::string _valueTxt;
+		std::vector<std::vector<std::string> > value_csv;
+		std::vector<std::vector<std::string> > value_txt;
 
-		std::string _yearCsv;
-		std::string _monthCsv;
-		std::string _dayCsv;
-		std::string _valueCsv;
 
 };
 
