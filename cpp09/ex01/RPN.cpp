@@ -48,7 +48,7 @@ void	RPN::parsing(char **argv)
 			//execute the operator
 			if (this->_stack.size() < 2)
 				throw std::invalid_argument("Error: not enough number in stack.");
-			exec(argv[i][0]); //!
+			exec(argv[i][0]);
 			count_sign++;
 			i++;
 			continue;
@@ -65,7 +65,7 @@ void	RPN::parsing(char **argv)
 		throw std::invalid_argument("Error: bad input (need one less operator than number).");
 }
 
-static void	calulate(std::stack<int> &_stack, char op)
+void RPN::exec(char op)
 {
 	int number1;
 	int number2;
@@ -93,11 +93,5 @@ static void	calulate(std::stack<int> &_stack, char op)
 		default:
 			break;
 	}
-}
-
-void RPN::exec(char op)
-{
-	calulate(this->_stack, op); // execute the operator
-
 }
 
