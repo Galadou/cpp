@@ -94,7 +94,9 @@ static void pars_value(std::string &line, std::string final_sep, std::vector<std
 	if (std::strtod(value.back()[3].c_str(), NULL) < 0.0)
 		throw std::invalid_argument("Error: not a positive number.");
 	if (std::strtod(value.back()[3].c_str(), NULL) > 1000 && final_sep == " | ")
-		throw std::invalid_argument("Error: too large a number.");
+		throw std::invalid_argument("Error: too large a number");
+	if ((std::strtod(value.back()[3].c_str(), NULL) > 2147483647 ||  std::strtod(value.back()[3].c_str(), NULL) < -2147483648) && final_sep == ",")
+		throw std::invalid_argument("Error: number out of range");
 	for (size_t i = 0; value.back()[3][i]; i++)
 	{
 		if (!std::isdigit(value.back()[3][i]))
