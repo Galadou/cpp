@@ -16,22 +16,16 @@ class Span
 		void	addNumber(int nb);
 		int	shortestSpan();
 		int	longestSpan();
-		void	addManyNumbers(int nb);
+		void	addManyNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 
 	private:
 		struct TooManyIntStored : public std::exception
 		{
-			const char *what() const throw()
-			{
-				return ("Error: Too many int inside the array !");
-			}
-		}; 
+			const char *what() const throw();
+		};
 		struct TooLittleIntStored : public std::exception
 		{
-			const char *what() const throw()
-			{
-				return ("Error: Too little int inside the array !");
-			}
+			const char *what() const throw();
 		};
 		Span();
 		std::vector<int>	_array;

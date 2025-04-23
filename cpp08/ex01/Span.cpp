@@ -5,7 +5,6 @@ Span::Span(unsigned int max)
 	if (max > 50000 || max < 1)
 		throw std::invalid_argument("Error: Cannot create Span with this param (too big or too small).");
 	this->_max = max;
-	std::srand(time(NULL));
 }
 
 Span::Span() {}
@@ -61,20 +60,30 @@ int	Span::longestSpan()
 	return (buf[buf.size() - 1] - buf[0]);
 }
 
-void	Span::addManyNumbers(int nb)
+void	Span::addManyNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end)
 {
 	int number;
 
 	try
 	{
-		for (int i = 0; i < nb; i++)
+		for ((void)begin; begin < end; begin++)
 		{
-			number = std::rand();
+			number = *begin;
 			this->addNumber(number);
 		}
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
+}
+
+const char *Span::TooManyIntStored::what() const throw()
+{
+	return ("Error: Too many int inside the array !");
+}
+
+const char *Span::TooLittleIntStored::what() const throw()
+{
+	return ("Error: Too little int inside the array !");
 }
