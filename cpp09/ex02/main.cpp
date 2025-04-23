@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 		pmerge.stock_deque_to_pair();
 		pmerge.sort_bigger();
 		pmerge.sort_smaller();
-
+		pmerge.print_value();
 	}
 	catch(const std::exception& e)
 	{

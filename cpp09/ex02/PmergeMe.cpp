@@ -123,5 +123,18 @@ void	PmergeMe::sort_smaller()
 			it_sorted++;
 		this->_sorted_deque.insert(it_sorted, it_pair->first);
 	} //normalement ils sont tous trier dans sorted deque
+
+	if (this->last_number == true)
+	{
+		it_sorted = this->_sorted_deque.begin();
+		while (it_sorted != this->_sorted_deque.end() && *it_sorted < *this->_deque_number.begin()) //si il restais un truc dedans, on le tri
+			it_sorted++;
+		this->_sorted_deque.insert(it_sorted, *this->_deque_number.begin());
+	}
+}
+
+void	PmergeMe::print_value()
+{
+
 }
 

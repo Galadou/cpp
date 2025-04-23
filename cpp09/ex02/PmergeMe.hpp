@@ -18,6 +18,7 @@ class PmergeMe
 		void	stock_deque_to_pair();
 		void	sort_bigger();
 		void	sort_smaller();
+		void	print_value();
 
 	private:
 		std::deque<int>						_deque_number;
