@@ -5,14 +5,16 @@ int main(int argc, char **argv)
 	try
 	{
 		PmergeMe pmerge(argc, argv);
-		pmerge.stock_deque_to_pair();
-		pmerge.sort_bigger();
-		pmerge.sort_smaller();
+		//deque
+		pmerge.exec();
+		
+
+		//print
 		pmerge.print_value();
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 
 	return 0;
