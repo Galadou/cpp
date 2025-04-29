@@ -32,8 +32,11 @@ void PmergeMe::parsing(int argc, char **argv)
 	{
 		if (argv[i] == NULL || strlen(argv[i]) == 0) // check if argv[i] is null or empty
 			throw std::invalid_argument("Error: empty or null argument.");
-		if (isdigit(argv[i][0]) == false) // its not a number
-			throw std::invalid_argument("Error: bad operator sign (should be +-*/).");
+		for (int j = 0; argv[i][j] != '\0'; j++)
+		{
+			if (isdigit(argv[i][j]) == false) // its not a number
+				throw std::invalid_argument("Error: bad operator sign.");
+		}
 		long int nb = std::atol(argv[i]);
 		if (nb < -2147483648 || nb > 2147483647)
 			throw std::invalid_argument("Error: number out of range.");
@@ -47,8 +50,8 @@ void	PmergeMe::exec()
 	//We stock the value to pair, first is the smaller, second the bigger between the pair
 	this->stock_deque_to_pair(this->_deque_number, this->_deque_pair);
 	this->sort_bigger(this->_deque_pair, this->_pair_sort_bigger, this->_sorted_deque);
-	this->sort_smaller(); //! a faire changement
-	
+	this->sort_smaller(this->_deque_pair, this->_pair_sort_bigger, this->_sorted_deque); //! a faire changement
+
 	//list
 	this->stock_deque_to_pair(this->_list_number, this->_list_pair);
 	this->sort_bigger(this->_list_pair, this->_lst_pair_sort_bigger, this->_sorted_list);
@@ -64,8 +67,8 @@ void	PmergeMe::stock_deque_to_pair(T &container, N &cont_pair) // a clean les de
 		return ; //!Result direct
 	if (container.size() == 2)
 	{
-		if (container[0] > container[1])
-			std::swap(container[0], container[1]);
+		if (container.front() > container.back())
+			std::swap(container.front(), container.back());
 		return ;//!Result direct
 	}
 	for ((void)container; container.size() > 0; (void)container)
@@ -88,8 +91,8 @@ void	PmergeMe::stock_deque_to_pair(T &container, N &cont_pair) // a clean les de
 template <typename T, typename N>
 void	PmergeMe::sort_bigger(T &container_pair, T &pair_sort_bigger, N &sorted_cont)
 {
-	T::iterator it;
-	T::iterator it_last_max;
+	typename T::iterator it;
+	typename T::iterator it_last_max;
 	int	last_max_found = 0;
 
 	if (container_pair.empty())
@@ -103,7 +106,7 @@ void	PmergeMe::sort_bigger(T &container_pair, T &pair_sort_bigger, N &sorted_con
 	{
 		last_max_found = container_pair.begin()->second;
 		it_last_max = container_pair.begin(); //initialisation du premier lien
-		for (it = container_pair.begin() + 1; it != container_pair.end(); it++) //est initialise au deuxieme
+		for (it = ++container_pair.begin(); it != container_pair.end(); it++) //est initialise au deuxieme
 		{
 			if (it->second < last_max_found)
 			{
@@ -111,7 +114,7 @@ void	PmergeMe::sort_bigger(T &container_pair, T &pair_sort_bigger, N &sorted_con
 				last_max_found = it->second;
 			}
 		}
-		pair_sort_bigger.push_back(*it);
+		pair_sort_bigger.push_back(*it_last_max); //? avant cetais ca : pair_sort_bigger.push_back(*it);
 		container_pair.erase(it_last_max); //on erase celui qui viens detre trier
 	}
 	pair_sort_bigger.push_back(*container_pair.begin());
@@ -120,37 +123,34 @@ void	PmergeMe::sort_bigger(T &container_pair, T &pair_sort_bigger, N &sorted_con
 		sorted_cont.push_back(it->second);
 }
 
-template <typename T>
-void	PmergeMe::sort_smaller()
+template <typename T, typename N>
+void	PmergeMe::sort_smaller(T &container_pair, T &pair_sort_bigger, N &sorted_cont)
 {
-	std::deque<std::pair<int, int> >::iterator it_pair;
-	std::deque<int>::iterator it_sorted;
+	typename T::iterator it_pair;
+	typename N::iterator it_sorted;
 
-	if (this->_pair_sort_bigger.empty())
+	if (pair_sort_bigger.empty())
 		return ;
-	if (this->_deque_pair.size() == 1)
-		this->_sorted_deque.push_front(this->_deque_pair.begin()->first); // on met le plus petit devant
+	if (container_pair.size() == 1)
+		sorted_cont.push_front(container_pair.begin()->first); // on met le plus petit devant
 	else
 	{
-		for (it_pair = this->_pair_sort_bigger.begin(); it_pair != this->_pair_sort_bigger.end(); it_pair++)
+		for (it_pair = pair_sort_bigger.begin(); it_pair != pair_sort_bigger.end(); it_pair++)
 		{
-			it_sorted = this->_sorted_deque.begin();
-			while (it_sorted != this->_sorted_deque.end() && *it_sorted < it_pair->first)
+			it_sorted = sorted_cont.begin();
+			while (it_sorted != sorted_cont.end() && *it_sorted < it_pair->first)
 				it_sorted++;
-			this->_sorted_deque.insert(it_sorted, it_pair->first);
+			sorted_cont.insert(it_sorted, it_pair->first);
 		} //normalement ils sont tous trier dans sorted deque
 	}
 	if (this->last_number == true)
 	{
-		it_sorted = this->_sorted_deque.begin();
-		while (it_sorted != this->_sorted_deque.end() && *it_sorted < *this->_deque_number.begin()) //si il restais un truc dedans, on le tri
+		it_sorted = sorted_cont.begin();
+		while (it_sorted != sorted_cont.end() && *it_sorted < *this->_deque_number.begin()) //si il restais un truc dedans, on le tri
 			it_sorted++;
-		this->_sorted_deque.insert(it_sorted, *this->_deque_number.begin());
+		sorted_cont.insert(it_sorted, *this->_deque_number.begin());
 	}
 }
-
-
-
 
 void	PmergeMe::print_value()
 {

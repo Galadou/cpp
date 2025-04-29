@@ -22,8 +22,8 @@ class PmergeMe
 		void	stock_deque_to_pair(T &container, N &cont_pair);
 		template <typename T, typename N>
 		void	sort_bigger(T &container_pair,T &_pair_sort_bigger, N &sorted_cont);
-		template <typename T>
-		void	sort_smaller();
+		template <typename T, typename N>
+		void	sort_smaller(T &pair_sort_bigger, T &deque_pair, N &sorted_deque);
 		void	print_value();
 
 
