@@ -43,7 +43,6 @@ void PmergeMe::parsing(int argc, char **argv)
 		this->_deque_number.push_back(nb);
 	}
 }
-
 void	PmergeMe::exec()
 {
 	//deque
@@ -154,6 +153,6 @@ void	PmergeMe::sort_smaller(T &container_pair, T &pair_sort_bigger, N &sorted_co
 
 void	PmergeMe::print_value()
 {
-
+	
 }
 
