@@ -7,10 +7,10 @@ int main(int argc, char **argv)
 		PmergeMe pmerge(argc, argv);
 		//deque
 		pmerge.exec();
-		
+
 
 		//print
-		pmerge.print_value();
+		pmerge.print_value(argv);
 	}
 	catch(const std::exception& e)
 	{

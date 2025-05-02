@@ -3,7 +3,8 @@
 PmergeMe::PmergeMe(int argc, char **argv)
 {
 	last_number = false;
-	parsing(argc, argv);
+	parsing(argc, argv, this->_deque_number);
+	parsing(argc, argv, this->_list_number);
 }
 PmergeMe::~PmergeMe()
 {
@@ -22,7 +23,8 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
 	return *this;
 }
 
-void PmergeMe::parsing(int argc, char **argv)
+template <typename T>
+void PmergeMe::parsing(int argc, char **argv, T &container)
 {
 	if (argc < 2)
 		throw std::invalid_argument("Error: Not enought param.");
@@ -35,25 +37,33 @@ void PmergeMe::parsing(int argc, char **argv)
 		for (int j = 0; argv[i][j] != '\0'; j++)
 		{
 			if (isdigit(argv[i][j]) == false) // its not a number
-				throw std::invalid_argument("Error: bad operator sign.");
+				throw std::invalid_argument("Error: only positive numbers are allowed.");
 		}
 		long int nb = std::atol(argv[i]);
 		if (nb < -2147483648 || nb > 2147483647)
 			throw std::invalid_argument("Error: number out of range.");
-		this->_deque_number.push_back(nb);
+		container.push_back(nb);
 	}
 }
 void	PmergeMe::exec()
 {
 	//deque
 	//We stock the value to pair, first is the smaller, second the bigger between the pair
+	std::clock_t start_time = std::clock();
 	this->stock_deque_to_pair(this->_deque_number, this->_deque_pair);
 	this->sort_bigger(this->_deque_pair, this->_pair_sort_bigger, this->_sorted_deque);
 	this->sort_smaller(this->_deque_pair, this->_pair_sort_bigger, this->_sorted_deque); //! a faire changement
+	std::clock_t end_time = std::clock();
+	this->duration_deque = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
+
 
 	//list
+	start_time = std::clock();
 	this->stock_deque_to_pair(this->_list_number, this->_list_pair);
 	this->sort_bigger(this->_list_pair, this->_lst_pair_sort_bigger, this->_sorted_list);
+	this->sort_smaller(this->_list_pair, this->_lst_pair_sort_bigger, this->_sorted_list); //! a faire changement
+	end_time = std::clock();
+	this->duration_list = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
 
 }
 
@@ -151,8 +161,34 @@ void	PmergeMe::sort_smaller(T &container_pair, T &pair_sort_bigger, N &sorted_co
 	}
 }
 
-void	PmergeMe::print_value()
+void	PmergeMe::print_value(char **argv)
 {
-	
+	int i = 1;
+
+	std::cout << "Before:";
+	while (argv[i] != NULL)
+	{
+		std::cout << " " << argv[i];
+		i++;
+	}
+	std::cout << std::endl << "After with deque:";
+	while (this->_sorted_deque.size() > 0)
+	{
+		std::cout << " " << this->_sorted_deque.front();
+		this->_sorted_deque.pop_front();
+	}
+	std::cout << std::endl;
+
+	std::cout << "After with list:";
+	while (this->_sorted_list.size() > 0)
+	{
+		std::cout << " " << this->_sorted_list.front();
+		this->_sorted_list.pop_front();
+	}
+	std::cout << std::endl;
+
+
+	std::cout << "Time to process a range of 5 elements with std::deque : " << this->duration_deque << " us" << std::endl;
+	std::cout << "Time to process a range of 5 elements with std::list : " << this->duration_list << " us" << std::endl;
 }
 

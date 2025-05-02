@@ -1,4 +1,4 @@
-NAME = RPN
+NAME = PmergeMe
 
 SRCS = 	main.cpp \
 		PmergeMe.cpp
