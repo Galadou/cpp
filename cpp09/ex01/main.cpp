@@ -1,7 +1,6 @@
 #include "RPN.hpp"
 
-
-//? Dont forget to enclose the '*' operator in quotes
+//? Don't forget to enclose the '*' operator in quotes in the argument.
 int main(int argc, char **argv)
 {
 	try
@@ -16,8 +15,8 @@ int main(int argc, char **argv)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
+		return (1);
 	}
-
-	return 0;
+	return (0);
 }

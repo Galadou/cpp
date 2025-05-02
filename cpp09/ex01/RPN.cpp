@@ -1,17 +1,14 @@
 #include "RPN.hpp"
 
-RPN::RPN()
-{
+RPN::RPN() {}
 
-}
-RPN::~RPN()
-{
+RPN::~RPN() {}
 
-}
 RPN::RPN(const RPN &src)
 {
 	*this = src;
 }
+
 RPN &RPN::operator=(const RPN &src)
 {
 	if (this != &src)
@@ -19,7 +16,7 @@ RPN &RPN::operator=(const RPN &src)
 		this->_result = src._result;
 		this->_stack = src._stack;
 	}
-	return *this;
+	return (*this);
 }
 
 int RPN::getResult()
@@ -39,11 +36,11 @@ void	RPN::parsing(char **argv)
 
 	while (argv[i])
 	{
-		if (argv[i] == NULL || std::strlen(argv[i]) == 0) // check if argv[i] is null or empty
+		if (argv[i] == NULL || std::strlen(argv[i]) == 0)
 			throw std::invalid_argument("Error: empty or null argument.");
-		if (isdigit(argv[i][0]) == false) // its not a number
+		if (isdigit(argv[i][0]) == false)
 		{
-			if ((argv[i][0] != '+' && argv[i][0] != '-' && argv[i][0] != '*' && argv[i][0] != '/')|| std::strlen(argv[i]) > 1) // si pas un signe et + plus long que 1 de taille
+			if ((argv[i][0] != '+' && argv[i][0] != '-' && argv[i][0] != '*' && argv[i][0] != '/')|| std::strlen(argv[i]) > 1)
 				throw std::invalid_argument("Error: bad operator sign (+-*/).");
 			//execute the operator
 			if (this->_stack.size() < 2)
@@ -57,7 +54,7 @@ void	RPN::parsing(char **argv)
 		nb = std::atol(argv[i]);
 		if (nb < 0 || nb > 9)
 			throw std::invalid_argument("Error: number out of range.");
-		this->_stack.push((nb)); // push the number in the stack
+		this->_stack.push((nb));
 		count_nb++;
 		i++;
 	}

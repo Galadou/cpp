@@ -35,7 +35,7 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 	{
 		if (this->_infile.is_open())
 			this->_infile.close();
-		this->_infile.open(src._infileName);
+		this->_infile.open(src._infileName.c_str());
 		if (!this->_infile.is_open())
 			throw std::invalid_argument("Error: src's file should be valid.");
 		this->_infileName = src._infileName;
@@ -54,16 +54,16 @@ static void pars_date(std::string &line, std::string final_sep, std::vector<std:
 	pos1 = line.find('-');
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	array.push_back(line.substr(0, pos1)); // oon add les year
+	array.push_back(line.substr(0, pos1));
 	pos2 = line.find('-', pos1 + 1);
 	if (pos2 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	array.push_back(line.substr(pos1 + 1, pos2 - pos1 - 1));//on add les mois
+	array.push_back(line.substr(pos1 + 1, pos2 - pos1 - 1));
 	pos1 = pos2;
 	pos2 = line.find(final_sep, pos1 + 1);
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	array.push_back(line.substr(pos1 + 1, pos2 - pos1 - 1)); //om ajoute les jour
+	array.push_back(line.substr(pos1 + 1, pos2 - pos1 - 1));
 	for (int i = 0; array[0][i]; i++)
 		if (!std::isdigit(array[0][i]))
 			throw std::invalid_argument("Error: bad input");
@@ -90,7 +90,7 @@ static void pars_value(std::string &line, std::string final_sep, std::vector<std
 	pos1 = line.find(final_sep);
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	value.back().push_back(line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1)); // on ajoute la derniere value (donc la value du bitcoin)
+	value.back().push_back(line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1));
 	if (std::strtod(value.back()[3].c_str(), NULL) < 0.0)
 		throw std::invalid_argument("Error: not a positive number.");
 	if (std::strtod(value.back()[3].c_str(), NULL) > 1000 && final_sep == " | ")
@@ -114,32 +114,31 @@ void	BitcoinExchange::find_bitcoin_value(std::vector<std::string> &valueTxt)
 	int i = 0;
 	std::vector<std::vector<std::string> >::iterator it = this->value_csv.begin();
 
-	while (it !=  this->value_csv.end() && std::atoi((*it)[0].c_str()) <= std::atoi(valueTxt[0].c_str())) // en gros on choppe le year de la premiere ligne de data.csv, et le year du txt actuelle.
+	while (it !=  this->value_csv.end() && std::atoi((*it)[0].c_str()) <= std::atoi(valueTxt[0].c_str())) // We get the year of the first line of data.csv, and the year of the current txt.
 	{
-		if (std::atoi((*it)[0].c_str()) == std::atoi(valueTxt[0].c_str()) && //si l'annee est bonne et que
-			std::atoi((*it)[1].c_str()) > std::atoi(valueTxt[1].c_str())) 		// le mois est plus grand
-		{// alors stop on prend le dernier trouvee
-			it--;
-			std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl; // on print le resultat
-			return;
-		}
-		if (std::atoi((*it)[0].c_str()) == std::atoi(valueTxt[0].c_str()) && //si l'annee est bonne et que
-			std::atoi((*it)[1].c_str()) == std::atoi(valueTxt[1].c_str()) && // le mois est bon et que
-			std::atoi((*it)[2].c_str()) > std::atoi(valueTxt[2].c_str())) // le jour est plus grand, alors on stop
+		if (std::atoi((*it)[0].c_str()) == std::atoi(valueTxt[0].c_str()) &&
+			std::atoi((*it)[1].c_str()) > std::atoi(valueTxt[1].c_str()))
 		{
 			it--;
-			std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl; // on print le resultat
+			std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl;
+			return;
+		}
+		if (std::atoi((*it)[0].c_str()) == std::atoi(valueTxt[0].c_str()) &&
+			std::atoi((*it)[1].c_str()) == std::atoi(valueTxt[1].c_str()) &&
+			std::atoi((*it)[2].c_str()) > std::atoi(valueTxt[2].c_str()))
+		{
+			it--;
+			std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl;
 			return;
 		}
 		it++;
 		i++;
 	}
-	//si annee plus petit alors ca sinon ca comme cq si on rentre 2000 et aue cest pas dans la dat a ca fais pas nimp
 	it--;
-	if (i > 1 && std::atoi(valueTxt[0].c_str()) < std::atoi((*it)[0].c_str())) // si la date est trop petite par rapport a la base de donnee
-		std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << "0" << std::endl; // Forcement 0 car pas dans la base de donnee
+	if (i > 1 && std::atoi(valueTxt[0].c_str()) < std::atoi((*it)[0].c_str())) // if the date is too small compared to the database
+		std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << "0" << std::endl;
 	else if (i)
-		std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl; // on print le resultat)
+		std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl; // we print the result
 }
 
 void	BitcoinExchange::exec()
@@ -153,7 +152,7 @@ void	BitcoinExchange::exec()
 		std::getline(this->_data, line_data); //skip first line
 		while (std::getline(this->_data, line_data))
 		{
-			pars_date(line_data, ",", this->value_csv); // parse la date du data.csv
+			pars_date(line_data, ",", this->value_csv); // parse the date of data.csv
 			pars_value(line_data, ",", this->value_csv);
 		}
 	}
@@ -177,19 +176,12 @@ void	BitcoinExchange::exec()
 		{
 			pars_date(line, " |", this->value_txt);
 			pars_value(line, " | ", this->value_txt);
-
-			//debug
-			// std::cout << "array[0] = " << value_txt.back()[0] << std::endl;
-			// std::cout << "array[1] = " << value_txt.back()[1] << std::endl;
-			// std::cout << "array[2] = " << value_txt.back()[2] << std::endl;
-			// std::cout << "array[3] = " << value_txt.back()[3] << std::endl;
-			//end of debug
-
-			find_bitcoin_value(this->value_txt.back()); // ici on print
+			find_bitcoin_value(this->value_txt.back());
 		}
 		catch(const std::exception& e)
 		{
 			std::cerr << e.what() << std::endl;
+			return;
 		}
 	}
 	if (first_line == true)
