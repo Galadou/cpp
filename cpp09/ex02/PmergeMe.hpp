@@ -7,7 +7,6 @@
 #include <cstdlib>
 #include <list>
 #include <ctime>
-#include <vector>
 
 class PmergeMe
 {
@@ -23,19 +22,13 @@ class PmergeMe
 		void	exec();
 
 		template <typename T, typename N>
-		void	stock_deque_to_pair(T &container, N &cont_pair);
+		void	stock_container_to_pair(T &container, N &cont_pair);
 		template <typename T, typename N>
 		void	sort_bigger(T &container_pair,T &_pair_sort_bigger, N &sorted_cont);
 		template <typename T, typename N>
-		void	sort_smaller(T &pair_sort_bigger, T &deque_pair, N &sorted_deque);
-		void	print_value(char **argv);
+		void	sort_smaller(T &container_pair, T &pair_sort_bigger, N &sorted_cont, N &container);
 
-
-		// void	getDequeNumber() const;
-		// void	getDequePair() const;
-		// void	getPairSortBigger() const;
-		// void	getSortedDeque() const;
-		// void	getDequeNumber() const;
+		void	print_value(int argc, char **argv);
 
 	private:
 		std::deque<int>					_deque_number;

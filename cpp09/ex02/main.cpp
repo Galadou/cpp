@@ -5,17 +5,13 @@ int main(int argc, char **argv)
 	try
 	{
 		PmergeMe pmerge(argc, argv);
-		//deque
 		pmerge.exec();
-
-
-		//print
-		pmerge.print_value(argv);
+		pmerge.print_value(argc, argv);
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
+		return (1);
 	}
-
-	return 0;
+	return (0);
 }
