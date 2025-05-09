@@ -35,7 +35,7 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 	{
 		if (this->_infile.is_open())
 			this->_infile.close();
-		this->_infile.open(src._infileName.c_str());
+		this->_infile.open(src._infileName.c_str());                     
 		if (!this->_infile.is_open())
 			throw std::invalid_argument("Error: src's file should be valid.");
 		this->_infileName = src._infileName;

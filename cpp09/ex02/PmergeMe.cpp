@@ -193,3 +193,160 @@ void	PmergeMe::print_value(int argc, char **argv)
 	std::cout << "Time to process a range of " << argc - 1 << " elements with std::list : " << this->duration_list << " us" << std::endl;
 }
 
+template <typename T> //! je cherche toujours a mettre nb AVANT l'iterator qui sera return
+typename T::iterator find_pos(T::iterator &start_it, TT::iterator &end_it, int nb)
+{
+	T::iterator it_mid;
+	T::iterator pos_final;
+
+
+	int dist = end_it - start_it;
+	it_mid = start_it + (dist / 2);
+	if (it_mid == start_it || it_mid == end_it)
+	{
+		if (nb < start_it)
+			return (start_it)
+		if (nb > start_it && nb < end_it)
+			return 
+	}
+	if (nb < *it_mid)//jenvoie meme start mais mid pour end
+		pos_final = find_pos(start_it, it_mid, nb);
+	else if (nb > *it_mid && nb > *it_mid + 1) // plus grand que celui la mais aussi plus grand aue celui d'apres
+
+
+}
+
+template <typename T, typename N>
+T &fordJohnson(T &stack)
+{
+	T stack_smaller;
+	T stack_bigger;
+	T stack_final;
+	int size = stack.size();
+
+	if (size < 2) // si il n'y a q'un element, donc le plus grand, on return
+		return (stack);
+	N stack_pair;
+	//en gros je decoupe la chaine de nombre 2 par 2 : le plus petit des deux va dans la case first, le plus grand va dans la case second.
+	for (int i = 0; i + 1 < size; i += 2) // a revoir, +1 je suis pas sur
+	{
+		if ()
+		if (stack[i] < stack[i + 1])
+			stack_pair.push_back(std::make_pair(stack[i], stack[i + 1]));
+		else
+			stack_pair.push_back(std::make_pair(stack[i + 1], stack[i]));
+	}
+	if (size %2 != 0) // si c'etais impaire, il doit rester un truc dedans donc on le met dans les plus grand
+		stack_bigger.push_back(stack[size - 1]);
+
+	//je met tout les premier dans la stack petite, et les second dans la stack grand
+	for (; !stack_pair.empty(); stack_pair.erase(stack_pair.begin()))
+	{
+		stack_smaller.push_back(stack_pair->first);
+		stack_bigger.push_back(stack_pair->second);
+	}
+
+	stack_final = fordJohnson(stack_bigger);
+
+	for (; !stack_smaller.empty(); stack_smaller.erase(stack_smaller.begin()))
+	{
+
+		stack_final.insert() stack_smaller.begin()
+	}
+
+	return (stack_final);
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Fonction pour insérer un élément dans un vecteur trié
+// void insert_sorted(std::vector<int>& sorted, int value)
+// {
+// 	std::vector<int>::iterator it = sorted.begin();
+// 	while (it != sorted.end() && *it < value)
+// 		++it;
+// 	sorted.insert(it, value);
+// }
+
+// // Fonction récursive Ford-Johnson (C++98)
+// std::vector<int> ford_johnson_sort(const std::vector<int>& input)
+// {
+// 	size_t n = input.size();
+// 	if (n <= 1)
+// 		return input;
+
+// 	std::vector<std::pair<int, int> > pairs;
+// 	std::vector<int> small;
+// 	std::vector<int> large;
+
+// 	// Création des paires
+// 	size_t i = 0;
+// 	for (; i + 1 < n; i += 2)
+// 	{
+// 		int a = input[i];
+// 		int b = input[i + 1];
+// 		if (a < b)
+// 			pairs.push_back(std::make_pair(a, b));
+// 		else
+// 			pairs.push_back(std::make_pair(b, a));
+// 	}
+
+// 	// Séparer en deux listes : petits et grands
+// 	for (size_t j = 0; j < pairs.size(); ++j) {
+// 		small.push_back(pairs[j].first);
+// 		large.push_back(pairs[j].second);
+// 	}
+
+// 	// Si impair, ajouter le dernier élément aux grands
+// 	if (n % 2 != 0)
+// 		large.push_back(input.back());
+
+// 	// Récursivité sur les grands
+// 	std::vector<int> sorted = ford_johnson_sort(large);
+
+// 	// Insertion des petits dans la liste triée
+// 	for (size_t k = 0; k < small.size(); ++k) {
+// 		insert_sorted(sorted, small[k]);
+// 	}
+
+// 	return sorted;
+// }
+
+
