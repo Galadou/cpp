@@ -6,7 +6,8 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
-#include <vector>
+//#include <vector>
+#include <map>
 
 class BitcoinExchange
 {
@@ -26,8 +27,10 @@ class BitcoinExchange
 		std::string		_infileName;
 		std::ifstream	_data;
 
-		std::vector<std::vector<std::string> > value_csv;
-		std::vector<std::vector<std::string> > value_txt;
+		//std::vector<std::vector<std::string> > value_csv;
+		//std::vector<std::vector<std::string> > value_txt;
+		std::map<std::string, int> value_txt;
+		std::map<std::string, int> value_csv;
 
 
 };

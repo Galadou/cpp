@@ -17,6 +17,7 @@ BitcoinExchange::BitcoinExchange(char **argv)
 	if (pos != fileName.size() - ext.size())
 		throw std::invalid_argument("Error: the file name must finish with '.txt'");
 }
+
 BitcoinExchange::~BitcoinExchange()
 {
 	if (this->_infile.is_open())
@@ -45,25 +46,39 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 	return (*this);
 }
 
-static void pars_date(std::string &line, std::string final_sep, std::vector<std::vector<std::string> > &value)
+static void pars_date(std::string &line, std::string final_sep)
 {
 	size_t						pos1;
 	size_t						pos2;
 	std::vector<std::string>	array;
+	std::string year;
+	std::string month;
+	std::string day;
 
 	pos1 = line.find('-');
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	array.push_back(line.substr(0, pos1));
+	year = line.substr(0, pos1);
+	if (std::atoi(year.c_str()) < 2000 || std::atoi(year.c_str()) > 2025)
+		throw std::invalid_argument("Error: bad input: year must be between 2000 and 2025");
+
 	pos2 = line.find('-', pos1 + 1);
 	if (pos2 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	array.push_back(line.substr(pos1 + 1, pos2 - pos1 - 1));
+	month = line.substr(pos1 + 1, pos2 - pos1 - 1);
+	if (std::atoi(array[1].c_str()) < 1 || std::atoi(array[1].c_str()) > 12)
+		throw std::invalid_argument("Error: bad input: month must be between 1 and 12");
+
 	pos1 = pos2;
 	pos2 = line.find(final_sep, pos1 + 1);
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input");
-	array.push_back(line.substr(pos1 + 1, pos2 - pos1 - 1));
+	day = line.substr(pos1 + 1, pos2 - pos1 - 1);
+	if (std::atoi(array[2].c_str()) < 1 || std::atoi(array[2].c_str()) > 31)
+		throw std::invalid_argument("Error: bad input: day must be between 1 and 31");
+
+	//! Mayday need to change vector to map to use the auto sort and check last one if no date valid etc...
+
 	for (int i = 0; array[0][i]; i++)
 		if (!std::isdigit(array[0][i]))
 			throw std::invalid_argument("Error: bad input");
@@ -73,12 +88,7 @@ static void pars_date(std::string &line, std::string final_sep, std::vector<std:
 	for (int i = 0; array[2][i]; i++)
 		if (!std::isdigit(array[2][i]))
 			throw std::invalid_argument("Error: bad input");
-	if (std::atoi(array[0].c_str()) < 2000 || std::atoi(array[0].c_str()) > 2025)
-		throw std::invalid_argument("Error: bad input: year must be between 2000 and 2025");
-	if (std::atoi(array[1].c_str()) < 1 || std::atoi(array[1].c_str()) > 12)
-		throw std::invalid_argument("Error: bad input: month must be between 1 and 12");
-	if (std::atoi(array[2].c_str()) < 1 || std::atoi(array[2].c_str()) > 31)
-		throw std::invalid_argument("Error: bad input: day must be between 1 and 31");
+	
 	value.push_back(array);
 }
 
