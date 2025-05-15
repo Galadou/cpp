@@ -16,8 +16,7 @@ class BitcoinExchange
 		~BitcoinExchange();
 		BitcoinExchange(BitcoinExchange &src);
 		BitcoinExchange &operator=(BitcoinExchange &src);
-		//void	data_parsing();
-		void	find_bitcoin_value(std::vector<std::string> &valueTxt);
+		void	find_bitcoin_value();
 
 		void	exec();
 
@@ -27,10 +26,10 @@ class BitcoinExchange
 		std::string		_infileName;
 		std::ifstream	_data;
 
-		//std::vector<std::vector<std::string> > value_csv;
-		//std::vector<std::vector<std::string> > value_txt;
-		std::map<std::string, int> value_txt;
-		std::map<std::string, int> value_csv;
+		std::string		date;
+
+		std::map<std::string, double> value_txt;
+		std::map<std::string, double> value_csv;
 
 
 };

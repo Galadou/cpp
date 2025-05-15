@@ -42,76 +42,75 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 		this->_infileName = src._infileName;
 		this->value_csv = src.value_csv;
 		this->value_txt = src.value_txt;
+		this->date = src.date;
 	}
 	return (*this);
 }
 
-static void pars_date(std::string &line, std::string final_sep)
+static void pars_date(std::string &line, std::string final_sep, std::string &date)
 {
 	size_t						pos1;
 	size_t						pos2;
-	std::vector<std::string>	array;
-	std::string year;
-	std::string month;
-	std::string day;
+	std::string					year;
+	std::string					month;
+	std::string					day;
 
 	pos1 = line.find('-');
 	if (pos1 == std::string::npos)
-		throw std::invalid_argument("Error: bad input");
+		throw std::invalid_argument("Error: bad input, no '-' find");
 	year = line.substr(0, pos1);
 	if (std::atoi(year.c_str()) < 2000 || std::atoi(year.c_str()) > 2025)
 		throw std::invalid_argument("Error: bad input: year must be between 2000 and 2025");
 
 	pos2 = line.find('-', pos1 + 1);
 	if (pos2 == std::string::npos)
-		throw std::invalid_argument("Error: bad input");
+		throw std::invalid_argument("Error: bad input, no '-' find");
 	month = line.substr(pos1 + 1, pos2 - pos1 - 1);
-	if (std::atoi(array[1].c_str()) < 1 || std::atoi(array[1].c_str()) > 12)
+	if (std::atoi(month.c_str()) < 1 || std::atoi(month.c_str()) > 12)
 		throw std::invalid_argument("Error: bad input: month must be between 1 and 12");
 
 	pos1 = pos2;
 	pos2 = line.find(final_sep, pos1 + 1);
-	if (pos1 == std::string::npos)
-		throw std::invalid_argument("Error: bad input");
+	if (pos2 == std::string::npos)
+		throw std::invalid_argument("Error: bad input, no separator find");
 	day = line.substr(pos1 + 1, pos2 - pos1 - 1);
-	if (std::atoi(array[2].c_str()) < 1 || std::atoi(array[2].c_str()) > 31)
+	if (std::atoi(day.c_str()) < 1 || std::atoi(day.c_str()) > 31)
 		throw std::invalid_argument("Error: bad input: day must be between 1 and 31");
 
-	//! Mayday need to change vector to map to use the auto sort and check last one if no date valid etc...
-
-	for (int i = 0; array[0][i]; i++)
-		if (!std::isdigit(array[0][i]))
-			throw std::invalid_argument("Error: bad input");
-	for (int i = 0; array[1][i]; i++)
-		if (!std::isdigit(array[1][i]))
-			throw std::invalid_argument("Error: bad input");
-	for (int i = 0; array[2][i]; i++)
-		if (!std::isdigit(array[2][i]))
-			throw std::invalid_argument("Error: bad input");
-	
-	value.push_back(array);
+	for (int i = 0; year[i]; i++)
+		if (!std::isdigit(year[i]))
+			throw std::invalid_argument("Error: bad input from year");
+	for (int i = 0; month[i]; i++)
+		if (!std::isdigit(month[i]))
+			throw std::invalid_argument("Error: bad input from month");
+	for (int i = 0; day[i]; i++)
+		if (!std::isdigit(day[i]))
+			throw std::invalid_argument("Error: bad input from day");
+	date = line.substr(0, pos2);
 }
 
-static void pars_value(std::string &line, std::string final_sep, std::vector<std::vector<std::string> > &value)
+static void pars_value(std::string &line, std::string final_sep, std::map<std::string, double> &value, std::string date)
 {
 	size_t	pos1;
 	bool	dot = false;
+	std::string bitcoin;
 
 	pos1 = line.find(final_sep);
 	if (pos1 == std::string::npos)
-		throw std::invalid_argument("Error: bad input");
-	value.back().push_back(line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1));
-	if (std::strtod(value.back()[3].c_str(), NULL) < 0.0)
+		throw std::invalid_argument("Error: bad input, no separator find");
+	bitcoin = line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1);
+	value[date] = std::strtod(bitcoin.c_str(), NULL);
+	if (value[date] < 0.0)
 		throw std::invalid_argument("Error: not a positive number.");
-	if (std::strtod(value.back()[3].c_str(), NULL) > 1000 && final_sep == " | ")
+	if (value[date] > 1000 && final_sep == " | ")
 		throw std::invalid_argument("Error: too large a number");
-	if ((std::strtod(value.back()[3].c_str(), NULL) > 2147483647 ||  std::strtod(value.back()[3].c_str(), NULL) < -2147483648) && final_sep == ",")
+	if ((value[date] > 2147483647 ||  value[date] < -2147483648) && final_sep == ",")
 		throw std::invalid_argument("Error: number out of range");
-	for (size_t i = 0; value.back()[3][i]; i++)
+	for (size_t i = 0; bitcoin[i]; i++)
 	{
-		if (!std::isdigit(value.back()[3][i]))
+		if (!std::isdigit(bitcoin[i]))
 		{
-			if (value.back()[3][i] == '.' && dot == false && i != 0 && i != value.back()[3].size() - 1)
+			if (bitcoin[i] == '.' && dot == false && i != 0 && i != bitcoin.size() - 1)
 				dot = true;
 			else
 				throw std::invalid_argument("Error: bad input");
@@ -119,36 +118,36 @@ static void pars_value(std::string &line, std::string final_sep, std::vector<std
 	}
 }
 
-void	BitcoinExchange::find_bitcoin_value(std::vector<std::string> &valueTxt)
+void	BitcoinExchange::find_bitcoin_value()
 {
-	int i = 0;
-	std::vector<std::vector<std::string> >::iterator it = this->value_csv.begin();
-
-	while (it !=  this->value_csv.end() && std::atoi((*it)[0].c_str()) <= std::atoi(valueTxt[0].c_str())) // We get the year of the first line of data.csv, and the year of the current txt.
+	std::map<std::string, double>::iterator it_txt = this->value_txt.begin();
+	while (it_txt != this->value_txt.end())
 	{
-		if (std::atoi((*it)[0].c_str()) == std::atoi(valueTxt[0].c_str()) &&
-			std::atoi((*it)[1].c_str()) > std::atoi(valueTxt[1].c_str()))
+		std::map<std::string, double>::iterator it_csv = this->value_csv.begin();
+		
+		while (it_csv != this->value_csv.end())
 		{
-			it--;
-			std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl;
-			return;
+			if (it_csv->first == it_txt->first)
+			{
+				std::cout << it_txt->first << " => " << it_txt->second << " = " << it_txt->second * it_csv->second << std::endl;
+				break;
+			}
+			else if (it_csv->first > it_txt->first)
+			{
+				if (it_csv != this->value_csv.begin())
+				{
+					it_csv--;
+					std::cout << it_txt->first << " => " << it_txt->second << " = " << it_txt->second * it_csv->second << std::endl;
+				}
+				else
+					std::cout << it_txt->first << " => " << it_txt->second << " = " << 0.0 << std::endl;
+				break;
+			}
+			else 
+				it_csv++;
 		}
-		if (std::atoi((*it)[0].c_str()) == std::atoi(valueTxt[0].c_str()) &&
-			std::atoi((*it)[1].c_str()) == std::atoi(valueTxt[1].c_str()) &&
-			std::atoi((*it)[2].c_str()) > std::atoi(valueTxt[2].c_str()))
-		{
-			it--;
-			std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl;
-			return;
-		}
-		it++;
-		i++;
+		it_txt++;
 	}
-	it--;
-	if (i > 1 && std::atoi(valueTxt[0].c_str()) < std::atoi((*it)[0].c_str())) // if the date is too small compared to the database
-		std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << "0" << std::endl;
-	else if (i)
-		std::cout << valueTxt[0] + "-" + valueTxt[1] + "-" + valueTxt[2] + " => " +	valueTxt[3] + " = " << std::strtof(valueTxt[3].c_str(), NULL) * std::strtof((*it)[3].c_str(), NULL) << std::endl; // we print the result
 }
 
 void	BitcoinExchange::exec()
@@ -162,37 +161,44 @@ void	BitcoinExchange::exec()
 		std::getline(this->_data, line_data); //skip first line
 		while (std::getline(this->_data, line_data))
 		{
-			pars_date(line_data, ",", this->value_csv); // parse the date of data.csv
-			pars_value(line_data, ",", this->value_csv);
+			pars_date(line_data, ",", this->date); // parse the date of data.csv
+			pars_value(line_data, ",", this->value_csv, this->date);
 		}
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << " in data.csv" << '\n';
+		std::cerr << e.what() << " in data.csv." << '\n';
 		return;
 	}
 	while (std::getline(this->_infile, line))
 	{
-		this->value_txt.clear();
 		if (first_line == true)
 		{
 			if (line != "date | value")
 				throw std::invalid_argument("Error: first line should be : 'date | value' for the given file.");
-			std::cout << line << std::endl;
 			first_line = false;
 			continue;
 		}
 		try
 		{
-			pars_date(line, " |", this->value_txt);
-			pars_value(line, " | ", this->value_txt);
-			find_bitcoin_value(this->value_txt.back());
+			pars_date(line, " |", this->date);
+			pars_value(line, " | ", this->value_txt, this->date);
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << " in the .txt file." << std::endl;
 			return;
 		}
+	}
+	try
+	{
+		std::cout << "date | value" << std::endl;
+		find_bitcoin_value();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
 	}
 	if (first_line == true)
 		throw std::invalid_argument("Error: no line to read in file given.");
