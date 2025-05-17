@@ -5,10 +5,8 @@ int main(int argc, char **argv)
 {
 	try
 	{
-		if (argc < 2)
-			throw std::invalid_argument("Error: Not enought param.");
-		if (argc > 99)
-			throw std::invalid_argument("Error: too much param.");
+		if (argc != 2)
+			throw std::invalid_argument("Error: Need 2 param.");
 		RPN rpn;
 		rpn.parsing(argv);
 		std::cout << rpn.getResult() << std::endl;

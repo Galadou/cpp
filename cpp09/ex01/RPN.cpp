@@ -33,30 +33,31 @@ void	RPN::parsing(char **argv)
 	long int nb;
 	int count_sign = 0;
 	int count_nb = 0;
-
-	while (argv[i])
+	std::string argument = argv[1];
+	std::istringstream iss(argument);
+	
+	while (iss >> argument)
 	{
-		if (argv[i] == NULL || std::strlen(argv[i]) == 0)
-			throw std::invalid_argument("Error: empty or null argument.");
-		if (isdigit(argv[i][0]) == false)
+		//std::cout << argument << std::endl;
+		if (argument.size() != 1)
+			throw std::invalid_argument("Error: empty, null or wrong argument.");
+		if (isdigit(argument[0]) == false)
 		{
-			if ((argv[i][0] != '+' && argv[i][0] != '-' && argv[i][0] != '*' && argv[i][0] != '/')|| std::strlen(argv[i]) > 1)
+			if ((argument[0] != '+' && argument[0] != '-' && argument[0] != '*' && argument[0] != '/'))
 				throw std::invalid_argument("Error: bad operator sign (+-*/).");
 			//execute the operator
 			if (this->_stack.size() < 2)
 				throw std::invalid_argument("Error: not enough number in stack.");
-			exec(argv[i][0]);
+			exec(argument[0]);
 			count_sign++;
 			i++;
 			continue;
 		}
-
-		nb = std::atol(argv[i]);
+		nb = std::atol(argument.c_str());
 		if (nb < 0 || nb > 9)
 			throw std::invalid_argument("Error: number out of range.");
 		this->_stack.push((nb));
 		count_nb++;
-		i++;
 	}
 	if (count_sign != count_nb - 1 || count_nb == 0 || count_sign == 0)
 		throw std::invalid_argument("Error: bad input (need one less operator than number).");
