@@ -6,6 +6,7 @@ PmergeMe::PmergeMe(int argc, char **argv)
 	parsing(argc, argv, this->_deque_number);
 	parsing(argc, argv, this->_list_number);
 }
+
 PmergeMe::~PmergeMe() {}
 
 PmergeMe::PmergeMe(const PmergeMe &src)
@@ -151,7 +152,7 @@ T fordJohnson(T &stack)
 		it = ++next;
 	}
 
-	stack_final = fordJohnson(stack_bigger); //recursive
+	stack_final = fordJohnson(stack_bigger);
 
 	for (typename T::iterator it = stack_smaller.begin(); it != stack_smaller.end(); ++it) // we insert all the smaller number with the binary sort.
 	{

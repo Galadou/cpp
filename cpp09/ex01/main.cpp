@@ -1,6 +1,5 @@
 #include "RPN.hpp"
 
-//? Don't forget to enclose the '*' operator in quotes in the argument.
 int main(int argc, char **argv)
 {
 	try

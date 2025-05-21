@@ -38,7 +38,6 @@ void	RPN::parsing(char **argv)
 	
 	while (iss >> argument)
 	{
-		//std::cout << argument << std::endl;
 		if (argument.size() != 1)
 			throw std::invalid_argument("Error: empty, null or wrong argument.");
 		if (isdigit(argument[0]) == false)

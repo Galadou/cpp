@@ -3,8 +3,6 @@
 BitcoinExchange::BitcoinExchange(char **argv)
 {
 	std::string fileName(argv[1]);
-	size_t		pos;
-	std::string ext = ".txt";
 
 	_infileName = argv[1];
 	_infile.open(argv[1]);
@@ -13,15 +11,14 @@ BitcoinExchange::BitcoinExchange(char **argv)
 	this->_data.open("data.csv");
 	if (!this->_data.is_open())
 		throw std::invalid_argument("Error : cannot open data.csv file.");
-	pos = fileName.find(ext);
-	if (pos != fileName.size() - ext.size())
-		throw std::invalid_argument("Error: the file name must finish with '.txt'");
 }
 
 BitcoinExchange::~BitcoinExchange()
 {
 	if (this->_infile.is_open())
 		this->_infile.close();
+	if (this->_data.is_open())
+		this->_data.close();
 }
 
 BitcoinExchange::BitcoinExchange(BitcoinExchange &src)
@@ -186,13 +183,12 @@ void	BitcoinExchange::exec()
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << " in the .txt file." << std::endl;
+			std::cerr << e.what() << " in the given file." << std::endl;
 			return;
 		}
 	}
 	try
 	{
-		std::cout << "date | value" << std::endl;
 		find_bitcoin_value();
 	}
 	catch(const std::exception& e)
