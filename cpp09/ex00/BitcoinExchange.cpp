@@ -83,6 +83,12 @@ static void pars_date(std::string &line, std::string final_sep, std::string &dat
 	for (int i = 0; day[i]; i++)
 		if (!std::isdigit(day[i]))
 			throw std::invalid_argument("Error: bad input from day");
+	if (year.size() != 4)
+		throw std::invalid_argument("Error: bad input from year");
+	if (month.size() != 2)
+		throw std::invalid_argument("Error: bad input from month");
+	if (day.size() != 2)
+		throw std::invalid_argument("Error: bad input from day");
 	date = line.substr(0, pos2);
 }
 
@@ -98,7 +104,9 @@ static void pars_value(std::string &line, std::string final_sep, std::map<std::s
 	bitcoin = line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1);
 	value[date] = std::strtod(bitcoin.c_str(), NULL);
 	if (value[date] < 0.0)
-		throw std::invalid_argument("Error: can't have negative number");
+		throw std::invalid_argument("Error: it's a negative number");
+	if ((value[date] > 1000 && final_sep == " | "))
+		throw std::invalid_argument("Error: number out of range");
 	if ((value[date] > 2147483647))
 		throw std::invalid_argument("Error: number out of range");
 	for (size_t i = 0; bitcoin[i]; i++)
@@ -115,34 +123,34 @@ static void pars_value(std::string &line, std::string final_sep, std::map<std::s
 
 void	BitcoinExchange::find_bitcoin_value()
 {
+	std::map<std::string, double>::iterator it_data = this->value_data.begin();
 	std::map<std::string, double>::iterator it_given = this->value_given.begin();
-	while (it_given != this->value_given.end())
+
+	if (it_given == this->value_given.end())
+		return;
+	
+	while (it_data != this->value_data.end())
 	{
-		std::map<std::string, double>::iterator it_data = this->value_data.begin();
-		
-		while (it_data != this->value_data.end())
+		if (it_data->first == it_given->first)
 		{
-			if (it_data->first == it_given->first)
-			{
-				std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
-				break;
-			}
-			else if (it_data->first > it_given->first)
-			{
-				if (it_data != this->value_data.begin())
-				{
-					it_data--;
-					std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
-				}
-				else
-					std::cout << it_given->first << " => " << it_given->second << " = " << 0.0 << std::endl;
-				break;
-			}
-			else 
-				it_data++;
+			std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
+			break;
 		}
-		it_given++;
+		else if (it_data->first > it_given->first)
+		{
+			if (it_data != this->value_data.begin())
+			{
+				it_data--;
+				std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
+			}
+			else
+				std::cout << it_given->first << " => " << it_given->second << " = " << 0.0 << std::endl;
+			break;
+		}
+		else 
+			it_data++;
 	}
+	this->value_given.clear();
 }
 
 void	BitcoinExchange::exec()
@@ -178,21 +186,12 @@ void	BitcoinExchange::exec()
 		{
 			pars_date(line, " |", this->date);
 			pars_value(line, " | ", this->value_given, this->date);
+			find_bitcoin_value();
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << " in the given file." << std::endl;
-			return;
+			std::cerr << e.what() << "." << std::endl;
 		}
-	}
-	try
-	{
-		find_bitcoin_value();
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-		return;
 	}
 	if (first_line == true)
 		throw std::invalid_argument("Error: no line to read in file given.");
