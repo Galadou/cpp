@@ -37,8 +37,8 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 		if (!this->_infile.is_open())
 			throw std::invalid_argument("Error: src's file should be valid.");
 		this->_infileName = src._infileName;
-		this->value_csv = src.value_csv;
-		this->value_txt = src.value_txt;
+		this->value_data = src.value_data;
+		this->value_given = src.value_given;
 		this->date = src.date;
 	}
 	return (*this);
@@ -98,10 +98,8 @@ static void pars_value(std::string &line, std::string final_sep, std::map<std::s
 	bitcoin = line.substr(pos1 + final_sep.size(), line.size() - pos1 - 1);
 	value[date] = std::strtod(bitcoin.c_str(), NULL);
 	if (value[date] < 0.0)
-		throw std::invalid_argument("Error: not a positive number.");
-	if (value[date] > 1000 && final_sep == " | ")
-		throw std::invalid_argument("Error: too large a number");
-	if ((value[date] > 2147483647 ||  value[date] < -2147483648) && final_sep == ",")
+		throw std::invalid_argument("Error: can't have negative number");
+	if ((value[date] > 2147483647))
 		throw std::invalid_argument("Error: number out of range");
 	for (size_t i = 0; bitcoin[i]; i++)
 	{
@@ -117,33 +115,33 @@ static void pars_value(std::string &line, std::string final_sep, std::map<std::s
 
 void	BitcoinExchange::find_bitcoin_value()
 {
-	std::map<std::string, double>::iterator it_txt = this->value_txt.begin();
-	while (it_txt != this->value_txt.end())
+	std::map<std::string, double>::iterator it_given = this->value_given.begin();
+	while (it_given != this->value_given.end())
 	{
-		std::map<std::string, double>::iterator it_csv = this->value_csv.begin();
+		std::map<std::string, double>::iterator it_data = this->value_data.begin();
 		
-		while (it_csv != this->value_csv.end())
+		while (it_data != this->value_data.end())
 		{
-			if (it_csv->first == it_txt->first)
+			if (it_data->first == it_given->first)
 			{
-				std::cout << it_txt->first << " => " << it_txt->second << " = " << it_txt->second * it_csv->second << std::endl;
+				std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
 				break;
 			}
-			else if (it_csv->first > it_txt->first)
+			else if (it_data->first > it_given->first)
 			{
-				if (it_csv != this->value_csv.begin())
+				if (it_data != this->value_data.begin())
 				{
-					it_csv--;
-					std::cout << it_txt->first << " => " << it_txt->second << " = " << it_txt->second * it_csv->second << std::endl;
+					it_data--;
+					std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
 				}
 				else
-					std::cout << it_txt->first << " => " << it_txt->second << " = " << 0.0 << std::endl;
+					std::cout << it_given->first << " => " << it_given->second << " = " << 0.0 << std::endl;
 				break;
 			}
 			else 
-				it_csv++;
+				it_data++;
 		}
-		it_txt++;
+		it_given++;
 	}
 }
 
@@ -159,7 +157,7 @@ void	BitcoinExchange::exec()
 		while (std::getline(this->_data, line_data))
 		{
 			pars_date(line_data, ",", this->date); // parse the date of data.csv
-			pars_value(line_data, ",", this->value_csv, this->date);
+			pars_value(line_data, ",", this->value_data, this->date);
 		}
 	}
 	catch(const std::exception& e)
@@ -179,7 +177,7 @@ void	BitcoinExchange::exec()
 		try
 		{
 			pars_date(line, " |", this->date);
-			pars_value(line, " | ", this->value_txt, this->date);
+			pars_value(line, " | ", this->value_given, this->date);
 		}
 		catch(const std::exception& e)
 		{

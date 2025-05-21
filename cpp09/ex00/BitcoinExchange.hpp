@@ -27,8 +27,8 @@ class BitcoinExchange
 
 		std::string		date;
 
-		std::map<std::string, double> value_txt;
-		std::map<std::string, double> value_csv;
+		std::map<std::string, double> value_given;
+		std::map<std::string, double> value_data;
 
 
 };
