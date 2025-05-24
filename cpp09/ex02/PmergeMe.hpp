@@ -8,8 +8,15 @@
 #include <list>
 #include <ctime>
 #include <iterator>
+#include <algorithm>
 
-//!  file:///nfs/homes/gmersch/Downloads/Merge_Insertion_sort%20(3).pdf
+struct block
+{
+	int value;
+	block *pair;
+
+	void *my_place;
+};
 
 class PmergeMe
 {
@@ -27,20 +34,17 @@ class PmergeMe
 		void	print_value(int argc, char **argv);
 
 	private:
-		std::deque<int>					_deque_number;
-		std::deque<int> 					_sorted_deque;
+		std::deque<block *>					_deque_number;
+		std::deque<block *> 					_sorted_deque;
 		double duration_deque;
 		bool								last_number;
-		std::list<int>						_list_number;
-		std::list<int> 						_sorted_list;
+		std::list<block *>						_list_number;
+		std::list<block *> 						_sorted_list;
 		double duration_list;
 };
 
 template <typename T>
-T fordJohnson(T &stack);
-
-
-
+void	fordJohnson(T &stack, T &stack_final);
 
 
 #endif

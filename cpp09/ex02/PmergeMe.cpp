@@ -48,22 +48,31 @@ void PmergeMe::parsing(int argc, char **argv, T &container)
 		long int nb = std::atol(argv[i]);
 		if (nb < 1 || nb > 2147483647)
 			throw std::invalid_argument("Error: number out of range.");
-		container.push_back(nb);
+		block *temp = new block;
+		temp->value = nb;
+		temp->pair = NULL;
+		temp->my_place = NULL;
+		container.push_back(temp);
 	}
 }
 void	PmergeMe::exec()
 {
 	//deque
 	std::clock_t start_time = std::clock();
-	this->_sorted_deque = fordJohnson(this->_deque_number);
+	fordJohnson(this->_deque_number, this->_sorted_deque);
 	std::clock_t end_time = std::clock();
 	this->duration_deque = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
 
+	std::cout << std::endl << " NEXT" << std::endl << std::endl;
+
 	//list
 	start_time = std::clock();
-	this->_sorted_list = fordJohnson(this->_list_number);
+	fordJohnson(this->_list_number, this->_sorted_list);
 	end_time = std::clock();
 	this->duration_list = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
+
+	std::cout << std::endl << " NEXT" << std::endl << std::endl;
+
 
 }
 
@@ -80,7 +89,10 @@ void	PmergeMe::print_value(int argc, char **argv)
 	std::cout << std::endl << "After with deque:";
 	while (this->_sorted_deque.size() > 0)
 	{
-		std::cout << " " << this->_sorted_deque.front();
+		std::cout << " " << this->_sorted_deque.front()->value;
+		if (this->_sorted_deque.front()->my_place)
+			delete static_cast<std::deque<block *>::iterator*>(this->_sorted_deque.front()->my_place);
+		delete this->_sorted_deque.front();
 		this->_sorted_deque.pop_front();
 	}
 	std::cout << std::endl;
@@ -88,7 +100,10 @@ void	PmergeMe::print_value(int argc, char **argv)
 	std::cout << "After with list:";
 	while (this->_sorted_list.size() > 0)
 	{
-		std::cout << " " << this->_sorted_list.front();
+		std::cout << " " << this->_sorted_list.front()->value;
+		if (this->_sorted_list.front()->my_place)
+			delete static_cast<std::deque<block *>::iterator*>(this->_sorted_list.front()->my_place);
+		delete this->_sorted_list.front();
 		this->_sorted_list.pop_front();
 	}
 	std::cout << std::endl;
@@ -98,14 +113,17 @@ void	PmergeMe::print_value(int argc, char **argv)
 }
 
 template <typename T>
-static T find_pos(T start_it, T end_it, int nb)
+static T find_pos(T start_it, T end_it, block *ptr)
 {
+	if (ptr == NULL)
+		return (start_it);
 	while (start_it != end_it)
 	{
 		typename std::iterator_traits<T>::difference_type dist = std::distance(start_it, end_it); //find the type of iterator and calculate the range between start_it and end_it
 		T mid = start_it;
 		std::advance(mid, dist / 2); // move mid to dist/n pos
-		if (nb <= *mid)
+		
+		if (ptr->value <= (*mid)->value)
 			end_it = mid;
 		else
 		{
@@ -116,18 +134,25 @@ static T find_pos(T start_it, T end_it, int nb)
 	return (start_it);
 }
 
+
+//T<block *>
 template <typename T>
-T fordJohnson(T &stack)
+void fordJohnson(T &stack, T &stack_final)
 {
+	typename T::iterator up_it;
 	T	stack_smaller;
 	T	stack_bigger;
-	T	stack_final;
 	int	size = stack.size();
 
 	if (size == 0)
-		return (T());
+		return;
 	if (size == 1)
-		return (stack);
+	{
+		//stack_final.insert(*stack.begin());
+		typename T::iterator inserted_it = stack_final.insert(stack_final.begin(), *stack.begin());
+		(*stack_final.begin())->my_place = static_cast<void*>(new typename T::iterator(inserted_it));
+		return;
+	}
 
 	typename T::iterator it = stack.begin();
 	while (it != stack.end())
@@ -139,27 +164,60 @@ T fordJohnson(T &stack)
 			stack_bigger.push_back(*it);
 			break;
 		}
-		if (*it < *next)
+		if ((*it)->value < (*next)->value)
 		{
+			(*it)->pair = *next;
 			stack_smaller.push_back(*it);
 			stack_bigger.push_back(*next);
 		}
 		else
 		{
+			(*next)->pair = *it;
 			stack_smaller.push_back(*next);
 			stack_bigger.push_back(*it);
 		}
 		it = ++next;
 	}
 
-	stack_final = fordJohnson(stack_bigger);
+	fordJohnson(stack_bigger, stack_final);
 
 	for (typename T::iterator it = stack_smaller.begin(); it != stack_smaller.end(); ++it) // we insert all the smaller number with the binary sort.
 	{
-		typename T::iterator insert_pos = find_pos(stack_final.begin(), stack_final.end(), *it);
-		stack_final.insert(insert_pos, *it);
-	}
+		if ((*it)->pair != NULL && (*it)->pair->my_place != NULL) //in case where it's NULL
+		{
+			std::cout << "oui" << std::endl;
+			std::cout << "oui value= " << (*it)->value << std::endl;
+			up_it = *static_cast<typename T::iterator*>((*it)->pair->my_place);
+		}
+		else
+		{
+			std::cout << "coucou: value= " << (*it)->value;
+			if ((*it)->pair)
+				std::cout << ", pair=" << (*it)->pair->value;
+			if ((*it)->pair->my_place)
+				std::cout << ", pair->myplace =" << (*it)->pair->my_place;
+			else
+				std::cout << "PAIR MYPLACE = NULL" << std::endl;
 
-	return (stack_final);
+			//std::cout << ", stack_final.size=" << stack_final.size() << std::endl;
+			up_it = stack_final.end();
+		}
+		typename T::iterator insert_pos = find_pos(stack_final.begin(), up_it, *it);
+		
+		//?Old 
+		//(*it)->my_place = static_cast<void*>(new typename T::iterator(stack_final.insert(insert_pos, *it)));
+		//! l'iterateur d'où je suis dans stack_final = l'iterator renvoyer par insert
+
+		// //?new
+		if ((*it)->my_place)
+			delete static_cast<typename T::iterator*>((*it)->my_place);
+
+		typename T::iterator inserted_it = stack_final.insert(insert_pos, *it);
+
+		(*it)->my_place = static_cast<void*>(new typename T::iterator(inserted_it));
+
+		// Debug
+		std::cout << "Inserted value=" << (*it)->value << " at position, my_place updated." << std::endl;
+	}
 }
 
