@@ -4,7 +4,7 @@ PmergeMe::PmergeMe(int argc, char **argv)
 {
 	last_number = false;
 	parsing(argc, argv, this->_deque_number);
-	parsing(argc, argv, this->_list_number);
+	parsing(argc, argv, this->_vector_number);
 }
 
 PmergeMe::~PmergeMe() {}
@@ -22,9 +22,9 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
 		this->_sorted_deque = src._sorted_deque;
 		this->duration_deque = src.duration_deque;
 		this->last_number = src.last_number;
-		this->_list_number = src._list_number;
-		this->_sorted_list = src._sorted_list;
-		this->duration_list = src.duration_list;
+		this->_vector_number = src._vector_number;
+		this->_sorted_vector = src._sorted_vector;
+		this->duration_vector = src.duration_vector;
 	}
 	return (*this);
 }
@@ -51,7 +51,7 @@ void PmergeMe::parsing(int argc, char **argv, T &container)
 		block *temp = new block;
 		temp->value = nb;
 		temp->pair = NULL;
-		temp->my_place = NULL;
+		temp->my_place = -1;
 		container.push_back(temp);
 	}
 }
@@ -63,17 +63,11 @@ void	PmergeMe::exec()
 	std::clock_t end_time = std::clock();
 	this->duration_deque = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
 
-	std::cout << std::endl << " NEXT" << std::endl << std::endl;
-
-	//list
+	//vector
 	start_time = std::clock();
-	fordJohnson(this->_list_number, this->_sorted_list);
+	fordJohnson(this->_vector_number, this->_sorted_vector);
 	end_time = std::clock();
-	this->duration_list = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
-
-	std::cout << std::endl << " NEXT" << std::endl << std::endl;
-
-
+	this->duration_vector = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
 }
 
 void	PmergeMe::print_value(int argc, char **argv)
@@ -90,46 +84,34 @@ void	PmergeMe::print_value(int argc, char **argv)
 	while (this->_sorted_deque.size() > 0)
 	{
 		std::cout << " " << this->_sorted_deque.front()->value;
-		if (this->_sorted_deque.front()->my_place)
-			delete static_cast<std::deque<block *>::iterator*>(this->_sorted_deque.front()->my_place);
 		delete this->_sorted_deque.front();
 		this->_sorted_deque.pop_front();
 	}
 	std::cout << std::endl;
-
-	std::cout << "After with list:";
-	while (this->_sorted_list.size() > 0)
+	std::cout << "After with vector:";
+	while (this->_sorted_vector.size() > 0)
 	{
-		std::cout << " " << this->_sorted_list.front()->value;
-		if (this->_sorted_list.front()->my_place)
-			delete static_cast<std::deque<block *>::iterator*>(this->_sorted_list.front()->my_place);
-		delete this->_sorted_list.front();
-		this->_sorted_list.pop_front();
+		std::cout << " " << this->_sorted_vector.front()->value;
+		delete this->_sorted_vector.front();
+		this->_sorted_vector.erase(this->_sorted_vector.begin());
 	}
 	std::cout << std::endl;
-
 	std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque : " << this->duration_deque << " us" << std::endl;
-	std::cout << "Time to process a range of " << argc - 1 << " elements with std::list : " << this->duration_list << " us" << std::endl;
+	std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector : " << this->duration_vector << " us" << std::endl;
 }
 
 template <typename T>
 static T find_pos(T start_it, T end_it, block *ptr)
 {
-	if (ptr == NULL)
-		return (start_it);
 	while (start_it != end_it)
 	{
-		typename std::iterator_traits<T>::difference_type dist = std::distance(start_it, end_it); //find the type of iterator and calculate the range between start_it and end_it
-		T mid = start_it;
-		std::advance(mid, dist / 2); // move mid to dist/n pos
-		
-		if (ptr->value <= (*mid)->value)
-			end_it = mid;
+		T mid_it = start_it + (end_it - start_it) / 2;
+		if ((*mid_it)->value < ptr->value)
+			start_it = ++mid_it; // on avance de 1 car on veut l'element plus grand que mid_it
+		else if ((*mid_it)->value > ptr->value)
+			end_it = mid_it; // on recule jusqu'a mid_it
 		else
-		{
-			start_it = mid;
-			++start_it;
-		}
+			return (mid_it); // si on trouve, on retourne l'iterator
 	}
 	return (start_it);
 }
@@ -148,9 +130,9 @@ void fordJohnson(T &stack, T &stack_final)
 		return;
 	if (size == 1)
 	{
-		//stack_final.insert(*stack.begin());
 		typename T::iterator inserted_it = stack_final.insert(stack_final.begin(), *stack.begin());
-		(*stack_final.begin())->my_place = static_cast<void*>(new typename T::iterator(inserted_it));
+		size_t index = inserted_it - stack_final.begin(); //index = l'endroit trouver - le begin, donc ca donne l'index !
+		(*stack_final.begin())->my_place = index;
 		return;
 	}
 
@@ -166,7 +148,7 @@ void fordJohnson(T &stack, T &stack_final)
 		}
 		if ((*it)->value < (*next)->value)
 		{
-			(*it)->pair = *next;
+			(*it)->pair = *next; //comme next est un iterator, *next = le pointeur de stock
 			stack_smaller.push_back(*it);
 			stack_bigger.push_back(*next);
 		}
@@ -183,41 +165,20 @@ void fordJohnson(T &stack, T &stack_final)
 
 	for (typename T::iterator it = stack_smaller.begin(); it != stack_smaller.end(); ++it) // we insert all the smaller number with the binary sort.
 	{
-		if ((*it)->pair != NULL && (*it)->pair->my_place != NULL) //in case where it's NULL
-		{
-			std::cout << "oui" << std::endl;
-			std::cout << "oui value= " << (*it)->value << std::endl;
-			up_it = *static_cast<typename T::iterator*>((*it)->pair->my_place);
-		}
+		if ((*it)->pair != NULL && (*it)->pair->my_place != (size_t)-1) //in case where it's NULL
+			up_it = stack_final.begin() + (*it)->pair->my_place;
 		else
-		{
-			std::cout << "coucou: value= " << (*it)->value;
-			if ((*it)->pair)
-				std::cout << ", pair=" << (*it)->pair->value;
-			if ((*it)->pair->my_place)
-				std::cout << ", pair->myplace =" << (*it)->pair->my_place;
-			else
-				std::cout << "PAIR MYPLACE = NULL" << std::endl;
-
-			//std::cout << ", stack_final.size=" << stack_final.size() << std::endl;
 			up_it = stack_final.end();
-		}
 		typename T::iterator insert_pos = find_pos(stack_final.begin(), up_it, *it);
-		
-		//?Old 
-		//(*it)->my_place = static_cast<void*>(new typename T::iterator(stack_final.insert(insert_pos, *it)));
-		//! l'iterateur d'où je suis dans stack_final = l'iterator renvoyer par insert
-
-		// //?new
-		if ((*it)->my_place)
-			delete static_cast<typename T::iterator*>((*it)->my_place);
-
 		typename T::iterator inserted_it = stack_final.insert(insert_pos, *it);
 
-		(*it)->my_place = static_cast<void*>(new typename T::iterator(inserted_it));
-
-		// Debug
-		std::cout << "Inserted value=" << (*it)->value << " at position, my_place updated." << std::endl;
+		(*it)->my_place = inserted_it - stack_final.begin();
+		inserted_it++;
+		while (inserted_it < stack_final.end())
+		{
+			(*inserted_it)->my_place += 1;
+			inserted_it++;
+		}
 	}
 }
 

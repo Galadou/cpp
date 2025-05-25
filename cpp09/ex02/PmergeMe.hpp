@@ -8,14 +8,17 @@
 #include <list>
 #include <ctime>
 #include <iterator>
-#include <algorithm>
+
+//!debug
+#include <vector>
+
 
 struct block
 {
 	int value;
 	block *pair;
 
-	void *my_place;
+	size_t my_place;
 };
 
 class PmergeMe
@@ -38,9 +41,14 @@ class PmergeMe
 		std::deque<block *> 					_sorted_deque;
 		double duration_deque;
 		bool								last_number;
-		std::list<block *>						_list_number;
-		std::list<block *> 						_sorted_list;
-		double duration_list;
+		// std::list<block *>						_list_number;
+		// std::list<block *> 						_sorted_list;
+		// double duration_list;
+		
+		//test
+		std::vector<block *>						_vector_number;
+		std::vector<block *> 						_sorted_vector;
+		double duration_vector;
 };
 
 template <typename T>
