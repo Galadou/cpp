@@ -25,6 +25,8 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
 		this->_vector_number = src._vector_number;
 		this->_sorted_vector = src._sorted_vector;
 		this->duration_vector = src.duration_vector;
+		this->jacobsthal_deque = src.jacobsthal_deque;
+		this->jacobsthal_vector = src.jacobsthal_vector;
 	}
 	return (*this);
 }
@@ -55,17 +57,18 @@ void PmergeMe::parsing(int argc, char **argv, T &container)
 		container.push_back(temp);
 	}
 }
+
 void	PmergeMe::exec()
 {
 	//deque
 	std::clock_t start_time = std::clock();
-	fordJohnson(this->_deque_number, this->_sorted_deque);
+	fordJohnson(this->_deque_number, this->_sorted_deque, this->jacobsthal_deque);
 	std::clock_t end_time = std::clock();
 	this->duration_deque = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
 
 	//vector
 	start_time = std::clock();
-	fordJohnson(this->_vector_number, this->_sorted_vector);
+	fordJohnson(this->_vector_number, this->_sorted_vector, this->jacobsthal_vector);
 	end_time = std::clock();
 	this->duration_vector = 1000000.0 * (end_time - start_time) / CLOCKS_PER_SEC;
 }
@@ -100,6 +103,22 @@ void	PmergeMe::print_value(int argc, char **argv)
 	std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector : " << this->duration_vector << " us" << std::endl;
 }
 
+template <typename T, typename N>
+static void	create_jacobsthal(T &jacobsthal, N &stack_smaller)
+{
+	size_t size = stack_smaller.end() - stack_smaller.begin();
+	size--;
+	size_t jacob = 1;
+	size_t lastjacob = 1;
+	jacobsthal.push_back(jacob);
+	while (jacob < size)
+	{
+		jacobsthal.push_back(jacob + (2 * lastjacob));
+		lastjacob = jacob;
+		jacob = jacobsthal.back();
+	}
+}
+	
 template <typename T>
 static T find_pos(T start_it, T end_it, block *ptr)
 {
@@ -107,36 +126,38 @@ static T find_pos(T start_it, T end_it, block *ptr)
 	{
 		T mid_it = start_it + (end_it - start_it) / 2;
 		if ((*mid_it)->value < ptr->value)
-			start_it = ++mid_it; // on avance de 1 car on veut l'element plus grand que mid_it
+			start_it = mid_it + 1;
 		else if ((*mid_it)->value > ptr->value)
-			end_it = mid_it; // on recule jusqu'a mid_it
+			end_it = mid_it;
 		else
-			return (mid_it); // si on trouve, on retourne l'iterator
+			return (mid_it);
 	}
 	return (start_it);
 }
 
-
-//T<block *>
-template <typename T>
-void fordJohnson(T &stack, T &stack_final)
+template <typename T, typename N>
+void fordJohnson(T &stack, T &stack_final, N jacobsthal)
 {
 	typename T::iterator up_it;
+	typename T::iterator it;
 	T	stack_smaller;
 	T	stack_bigger;
-	int	size = stack.size();
+	bool should_stop = false;
+	int	stack_size = stack.size();
 
-	if (size == 0)
+	if (stack_size == 0)
 		return;
-	if (size == 1)
+	if (stack_size == 1)
 	{
 		typename T::iterator inserted_it = stack_final.insert(stack_final.begin(), *stack.begin());
-		size_t index = inserted_it - stack_final.begin(); //index = l'endroit trouver - le begin, donc ca donne l'index !
+		size_t index = inserted_it - stack_final.begin();
 		(*stack_final.begin())->my_place = index;
 		return;
 	}
 
-	typename T::iterator it = stack.begin();
+	//We sort 2 by 2 the number in the stack, and we put the bigger of the 2 into the stack_bigger,
+	//and the lower one inside the stack_smaller
+	it = stack.begin();
 	while (it != stack.end())
 	{
 		typename T::iterator next = it;
@@ -148,7 +169,7 @@ void fordJohnson(T &stack, T &stack_final)
 		}
 		if ((*it)->value < (*next)->value)
 		{
-			(*it)->pair = *next; //comme next est un iterator, *next = le pointeur de stock
+			(*it)->pair = *next;
 			stack_smaller.push_back(*it);
 			stack_bigger.push_back(*next);
 		}
@@ -161,24 +182,51 @@ void fordJohnson(T &stack, T &stack_final)
 		it = ++next;
 	}
 
-	fordJohnson(stack_bigger, stack_final);
+	fordJohnson(stack_bigger, stack_final, jacobsthal);
+	create_jacobsthal(jacobsthal, stack_smaller);
 
-	for (typename T::iterator it = stack_smaller.begin(); it != stack_smaller.end(); ++it) // we insert all the smaller number with the binary sort.
+	//We place all the number stored in stack_smaller into stack_final using the Jacobsthal sequence,
+	//his max value associated and binary search.
+	typename T::iterator this_jacob_it;
+	typename T::iterator last_jacob_it = stack_smaller.begin();
+	while (should_stop == false)
 	{
-		if ((*it)->pair != NULL && (*it)->pair->my_place != (size_t)-1) //in case where it's NULL
-			up_it = stack_final.begin() + (*it)->pair->my_place;
-		else
-			up_it = stack_final.end();
-		typename T::iterator insert_pos = find_pos(stack_final.begin(), up_it, *it);
-		typename T::iterator inserted_it = stack_final.insert(insert_pos, *it);
-
-		(*it)->my_place = inserted_it - stack_final.begin();
-		inserted_it++;
-		while (inserted_it < stack_final.end())
+		if (jacobsthal.empty() || *jacobsthal.begin() >= stack_smaller.size())
 		{
-			(*inserted_it)->my_place += 1;
-			inserted_it++;
+			this_jacob_it = stack_smaller.end() - 1;
+			it = this_jacob_it;
+			should_stop = true;
 		}
+		else
+		{
+			this_jacob_it = stack_smaller.begin() + *jacobsthal.begin();
+			it = this_jacob_it;
+			jacobsthal.erase(jacobsthal.begin());
+		}
+
+		//We use Jacobsthal sequence to known the determine in witch to insert the element.
+		while (it > last_jacob_it || it == stack_smaller.begin())
+		{
+			if ((*it)->pair != NULL && (*it)->pair->my_place != (size_t)-1)
+				up_it = stack_final.begin() + (*it)->pair->my_place;
+			else
+				up_it = stack_final.end();
+			typename T::iterator insert_pos = find_pos(stack_final.begin(), up_it, *it);
+			typename T::iterator inserted_it = stack_final.insert(insert_pos, *it);
+
+			(*it)->my_place = inserted_it - stack_final.begin();
+			inserted_it++;
+			while (inserted_it < stack_final.end())
+			{
+				(*inserted_it)->my_place += 1;
+				inserted_it++;
+			}
+			if (it != stack_smaller.begin())
+				it--;
+			else
+				break;
+		}
+		last_jacob_it = this_jacob_it;
 	}
 }
 
