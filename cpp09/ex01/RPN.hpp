@@ -23,5 +23,4 @@ class RPN
 		int _result;
 };
 
-
 #endif

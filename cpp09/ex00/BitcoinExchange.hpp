@@ -16,7 +16,6 @@ class BitcoinExchange
 		BitcoinExchange(BitcoinExchange &src);
 		BitcoinExchange &operator=(BitcoinExchange &src);
 		void	find_bitcoin_value();
-
 		void	exec();
 
 	private:
