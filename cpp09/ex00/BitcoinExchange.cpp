@@ -190,6 +190,7 @@ void	BitcoinExchange::exec()
 		}
 		catch(const std::exception& e)
 		{
+			this->value_given.clear();
 			std::cerr << e.what() << "." << std::endl;
 		}
 	}

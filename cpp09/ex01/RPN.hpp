@@ -19,7 +19,7 @@ class RPN
 		int getResult();
 
 	private:
-		std::stack<int> _stack;
+		std::stack<long int> _stack;
 		int _result;
 };
 

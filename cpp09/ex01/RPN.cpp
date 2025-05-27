@@ -64,8 +64,9 @@ void	RPN::parsing(char **argv)
 
 void RPN::exec(char op)
 {
-	int number1;
-	int number2;
+	long int number1;
+	long int number2;
+	long int result;
 
 	number2 = _stack.top(); // get the top element
 	_stack.pop(); // remove the top element
@@ -74,21 +75,24 @@ void RPN::exec(char op)
 	switch (op)
 	{
 		case '+':
-			_stack.push(number1 + number2);
+			result = number1 + number2;
 			break;
 		case '-':
-			_stack.push(number1 - number2);
+			result = number1 - number2;
 			break;
 		case '/':
 			if (number2 == 0)
 				throw std::invalid_argument("Error: division by zero.");
-			_stack.push(number1 / number2);
+			result = number1 / number2;
 			break;
 		case '*':
-			_stack.push(number1 * number2);
+			result = number1 * number2;
 			break;
 		default:
-			break;
+			result = -2147483649;
 	}
+	if (result < -2147483648 || result > 2147483647)
+		throw std::invalid_argument("One result is out of bounds.");
+	_stack.push(result);
 }
 
