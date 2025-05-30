@@ -58,7 +58,7 @@ void	RPN::parsing(char **argv)
 		this->_stack.push((nb));
 		count_nb++;
 	}
-	if (count_sign != count_nb - 1 || count_nb == 0 || count_sign == 0)
+	if (count_sign != count_nb - 1 || count_nb == 0)
 		throw std::invalid_argument("Error: bad input (need one less operator than number).");
 }
 

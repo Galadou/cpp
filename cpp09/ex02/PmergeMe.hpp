@@ -31,6 +31,7 @@ class PmergeMe
 		void	print_value(int argc, char **argv);
 
 	private:
+		PmergeMe();
 		std::deque<block *>		_deque_number;
 		std::deque<block *>		_sorted_deque;
 		double					duration_deque;
@@ -40,7 +41,7 @@ class PmergeMe
 		std::vector<block *>	_vector_number;
 		std::vector<block *>	_sorted_vector;
 		double					duration_vector;
-		std::deque<size_t>		jacobsthal_vector;
+		std::vector<size_t>		jacobsthal_vector;
 };
 
 template <typename T, typename N>

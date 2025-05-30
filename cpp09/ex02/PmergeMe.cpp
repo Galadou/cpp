@@ -7,6 +7,8 @@ PmergeMe::PmergeMe(int argc, char **argv)
 	parsing(argc, argv, this->_vector_number);
 }
 
+PmergeMe::PmergeMe() {}
+
 PmergeMe::~PmergeMe() {}
 
 PmergeMe::PmergeMe(const PmergeMe &src)
@@ -48,7 +50,7 @@ void PmergeMe::parsing(int argc, char **argv, T &container)
 				throw std::invalid_argument("Error: only positive numbers are allowed.");
 		}
 		long int nb = std::atol(argv[i]);
-		if (nb < 1 || nb > 2147483647)
+		if (nb < 1 || nb > 2147483647 || std::strlen(argv[i]) > 10)
 			throw std::invalid_argument("Error: number out of range.");
 		block *temp = new block;
 		temp->value = nb;

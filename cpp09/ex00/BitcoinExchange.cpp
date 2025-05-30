@@ -27,6 +27,8 @@ BitcoinExchange::BitcoinExchange(BitcoinExchange &src)
 		*this = src;
 }
 
+BitcoinExchange::BitcoinExchange() {}
+
 BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 {
 	if (&src != this)
@@ -46,34 +48,26 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange &src)
 
 static void pars_date(std::string &line, std::string final_sep, std::string &date)
 {
-	size_t						pos1;
-	size_t						pos2;
-	std::string					year;
-	std::string					month;
-	std::string					day;
+	size_t			pos1;
+	size_t			pos2;
+	std::string		year;
+	std::string		month;
+	std::string		day;
 
 	pos1 = line.find('-');
 	if (pos1 == std::string::npos)
 		throw std::invalid_argument("Error: bad input, no '-' find");
 	year = line.substr(0, pos1);
-	if (std::atoi(year.c_str()) < 2000 || std::atoi(year.c_str()) > 2025)
-		throw std::invalid_argument("Error: bad input: year must be between 2000 and 2025");
-
 	pos2 = line.find('-', pos1 + 1);
 	if (pos2 == std::string::npos)
 		throw std::invalid_argument("Error: bad input, no '-' find");
 	month = line.substr(pos1 + 1, pos2 - pos1 - 1);
-	if (std::atoi(month.c_str()) < 1 || std::atoi(month.c_str()) > 12)
-		throw std::invalid_argument("Error: bad input: month must be between 1 and 12");
-
 	pos1 = pos2;
 	pos2 = line.find(final_sep, pos1 + 1);
 	if (pos2 == std::string::npos)
 		throw std::invalid_argument("Error: bad input, no separator find");
 	day = line.substr(pos1 + 1, pos2 - pos1 - 1);
-	if (std::atoi(day.c_str()) < 1 || std::atoi(day.c_str()) > 31)
-		throw std::invalid_argument("Error: bad input: day must be between 1 and 31");
-
+	
 	for (int i = 0; year[i]; i++)
 		if (!std::isdigit(year[i]))
 			throw std::invalid_argument("Error: bad input from year");
@@ -89,6 +83,14 @@ static void pars_date(std::string &line, std::string final_sep, std::string &dat
 		throw std::invalid_argument("Error: bad input from month");
 	if (day.size() != 2)
 		throw std::invalid_argument("Error: bad input from day");
+
+	if (std::atoi(day.c_str()) < 1 || std::atoi(day.c_str()) > 31)
+		throw std::invalid_argument("Error: bad input: day must be between 1 and 31");
+	if (std::atoi(month.c_str()) < 1 || std::atoi(month.c_str()) > 12)
+		throw std::invalid_argument("Error: bad input: month must be between 1 and 12");
+	if (std::atoi(year.c_str()) < 2000 || std::atoi(year.c_str()) > 2025)
+		throw std::invalid_argument("Error: bad input: year must be between 2000 and 2025");
+
 	date = line.substr(0, pos2);
 }
 
@@ -126,30 +128,14 @@ void	BitcoinExchange::find_bitcoin_value()
 	std::map<std::string, double>::iterator it_data = this->value_data.begin();
 	std::map<std::string, double>::iterator it_given = this->value_given.begin();
 
-	if (it_given == this->value_given.end())
-		return;
-	
-	while (it_data != this->value_data.end())
+	it_data = value_data.upper_bound(it_given->first);
+	if (it_data != this->value_data.begin())
 	{
-		if (it_data->first == it_given->first)
-		{
-			std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
-			break;
-		}
-		else if (it_data->first > it_given->first)
-		{
-			if (it_data != this->value_data.begin())
-			{
-				it_data--;
-				std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
-			}
-			else
-				std::cout << it_given->first << " => " << it_given->second << " = " << 0.0 << std::endl;
-			break;
-		}
-		else 
-			it_data++;
+		it_data--;
+		std::cout << it_given->first << " => " << it_given->second << " = " << it_given->second * it_data->second << std::endl;
 	}
+	else
+		std::cout << it_given->first << " => " << it_given->second << " = " << 0.0 << std::endl;
 	this->value_given.clear();
 }
 
