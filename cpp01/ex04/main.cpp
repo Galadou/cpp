@@ -33,7 +33,6 @@ int	ft_parsing(int argc, char **argv, std::ifstream &infile)
 	return (0);
 }
 
-#include <stdio.h>
 void	ft_algo(std::ofstream &outfile, std::ifstream &infile, std::string &myline, char **argv)
 {
 	size_t pos1;
